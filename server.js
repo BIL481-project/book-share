@@ -2,15 +2,15 @@ require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
+const { testConnection: testDatabaseConnection } = require('./database/db')
 const startNgrok = require('./updateBackendUrl');
 const books = require('./data/books.json'); // Eğer 'data' klasörü altındaysa
-
 
 const app = express();
 const PORT = 3000;
 
 app.use(cors());
-app.use('/assets', express.static('assets'))
+app.use('/assets', express.static('assets'));
 
 app.get('/', (req, res) => {
     res.send('Hello from' + PORT + 'port!');
@@ -40,4 +40,5 @@ app.get('/api/books/:id', (req, res) => {
 app.listen(PORT, () => {
     console.log('Server is running on port 3000');
     startNgrok();
+    testDatabaseConnection();
 });
