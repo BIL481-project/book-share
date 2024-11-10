@@ -6,11 +6,16 @@ const { testConnection: testDatabaseConnection } = require('./database/db')
 const startNgrok = require('./updateBackendUrl');
 const books = require('./data/books.json'); // Eğer 'data' klasörü altındaysa
 
+const authRoutes = require('./routes/auth');
+
 const app = express();
 const PORT = 3000;
 
 app.use(cors());
 app.use('/assets', express.static('assets'));
+
+app.use(express.json());
+app.use('/api/auth', authRoutes);
 
 app.get('/', (req, res) => {
     res.send('Hello from' + PORT + 'port!');
