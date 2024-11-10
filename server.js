@@ -2,12 +2,12 @@ require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
-const { testConnection: testDatabaseConnection } = require('./database/db')
-const startNgrok = require('./updateBackendUrl');
-const books = require('./data/books.json'); // Eğer 'data' klasörü altındaysa
+const { testConnection: testDatabaseConnection } = require('./database/config/db')
+const startNgrok = require('./utils/updateBackendUrl');
+const books = require('./dummy_data/books.json'); // Eğer 'data' klasörü altındaysa
 
-const authRoutes = require('./routes/auth');
-const testRoutes = require('./routes/example_protected_route');
+const authRoutes = require('./routes/api/auth');
+const testRoutes = require('./routes/api/example_protected_route');
 
 const app = express();
 const PORT = 3000;

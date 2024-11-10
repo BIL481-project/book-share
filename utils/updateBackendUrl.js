@@ -3,7 +3,7 @@ const ngrok = require('ngrok');
 const path = require('path');
 
 // .env dosyasının yolu
-const envFilePath = path.join(__dirname, '.env');
+const envFilePath = path.join(__dirname, '../.env');
 
 async function startNgrok() {
  try {
