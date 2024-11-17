@@ -49,7 +49,7 @@ async function findBookByCommunityId(communityId) {
     /* FILL */
 }
 
-module.exports = { findAllBooks, findBookById }
+module.exports = { findAllBooks, findBookById, insertBook }
 
 /* TEST CODE */
 /*

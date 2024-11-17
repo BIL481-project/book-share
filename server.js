@@ -6,8 +6,8 @@ const { testConnection: testDatabaseConnection } = require('./database/config/db
 const startNgrok = require('./utils/updateBackendUrl');
 //const books = require('./dummy_data/books.json'); // Eğer 'data' klasörü altındaysa
 
-const bookService = require('./backend/BookService');
-const booksRoutes = require('./backend/BookController')
+const bookService = require('./backend/Services/BookService');
+const booksRoutes = require('./backend/Controllers/BookController')
 
 const authRoutes = require('./routes/api/auth');
 const testRoutes = require('./routes/api/example_protected_route');
@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
     res.send('Hello from' + PORT + 'port!');
 });
 
-app.use('books', booksRoutes);
+app.use('/api/books', booksRoutes);
 
 app.get('/api/start', (req, res) => {
     res.json({ message: "Kitaplar ekranına yönlendiriliyorsunuz" });

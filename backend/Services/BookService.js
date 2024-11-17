@@ -1,4 +1,14 @@
-const bookRepository = require('./BookRepository');
+const bookRepository = require('../Repositories/BookRepository');
+
+async function addBook(bookData) {
+    try {
+        await bookRepository.insertBook(bookData.title, bookData.location, bookData.description, bookData.image);
+        console.log('addBook success.');
+
+    } catch (error) {
+        console.error('addBook error: ', error);
+    }
+}
 
 async function getAllBooks() {
   try {
@@ -42,11 +52,16 @@ module.exports = { getAllBooks, getBookById };
 
 /* TEST CODE */
 
-/*
-getAllBooks().then(
-  function(result) { console.log(result) },
-  function(error) { console.log(error) }
-);
+
+//getAllBooks().then(
+//  function(result) { console.log(result) },
+//  function(error) { console.log(error) }
+//);
+
+//getBookById(1).then( //valid id giriÅŸ testi
+//    function(result) { console.log(result) },
+//    function(error) { console.log(error) }
+//);
 
 getBookById(1).then( //valid id giriþ testi
     function(result) { console.log(result) },

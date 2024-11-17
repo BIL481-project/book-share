@@ -21,5 +21,10 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-module.exports = router;
+router.post('/', async (req, res) => {
+    const book = req.body;
+    bookService.addBook(book);
+    res.status(201).json({ message: 'Book added successfuly' });
+});
 
+module.exports = router;
