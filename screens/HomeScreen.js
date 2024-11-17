@@ -18,10 +18,20 @@ export default function HomeScreen({ navigation }) {
         }
     };
 
+    const navigateToLogin = () => {
+        navigation.navigate('Login');
+    };
+
+    const navigateToDummy = () => {
+        navigation.navigate('Dummy');
+    };
+
     return (
         <View style={styles.container}>
             <Text style={styles.welcomeText}>KitapPaylaş uygulamasına hoşgeldiniz!</Text>
             <Button title="Başla" onPress={handleStart} />
+            <Button title="Giriş Yap" onPress={navigateToLogin} />
+            <Button title="Protected Route Test" onPress={navigateToDummy} />
         </View>
     );
 }
