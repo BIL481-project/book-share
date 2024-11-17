@@ -35,4 +35,7 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
+#visual studio
+.vs/
+
 package-lock.json

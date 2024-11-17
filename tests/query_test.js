@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-const { sequelize } = require('../db');
+const { sequelize } = require('../backend/db');
 
 async function runRawQueries() {
   try {
