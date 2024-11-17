@@ -48,7 +48,7 @@ async function getBookByCommunityId(communityId) {
   //return await bookRepository.addBook(bookData);
 //}
 
-module.exports = { getAllBooks, getBookById };
+module.exports = { getAllBooks, getBookById, addBook };
 
 /* TEST CODE */
 
