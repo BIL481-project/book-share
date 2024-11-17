@@ -44,7 +44,7 @@ async function getBookByCommunityId(communityId) {
 }
 
 //async function addBook(bookData) {
-  // İş kurallarını uygulayın (örneğin, aynı isimde kitap var mı kontrolü)
+  // ÃÃ¾ kurallarÃ½nÃ½ uygulayÃ½n (Ã¶rneÃ°in, aynÃ½ isimde kitap var mÃ½ kontrolÃ¼)
   //return await bookRepository.addBook(bookData);
 //}
 
@@ -58,17 +58,17 @@ module.exports = { getAllBooks, getBookById, addBook };
 //  function(error) { console.log(error) }
 //);
 
-//getBookById(1).then( //valid id giriÅŸ testi
+//getBookById(1).then( //valid id giriÃ…Å¸ testi
 //    function(result) { console.log(result) },
 //    function(error) { console.log(error) }
 //);
-
-getBookById(1).then( //valid id giriş testi
+/*
+getBookById(1).then( //valid id giriÃ¾ testi
     function(result) { console.log(result) },
     function(error) { console.log(error) }
 );
 
-getBookById(5).then( //invalid id giriş testi
+getBookById(5).then( //invalid id giriÃ¾ testi
     function(result) { console.log(result) },
     function(error) { console.log(error) }
 );
