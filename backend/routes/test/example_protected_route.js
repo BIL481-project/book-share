@@ -4,7 +4,7 @@ const User = require('../../models/User');
 
 const authMiddleware = require('../../middlewares/authMiddleware');
 
-router.get('/', authMiddleware, async (req, res) => {
+router.get('/protected', authMiddleware, async (req, res) => {
   try {
     const user = await User.findByPk(req.user.userId);
     if (!user) {

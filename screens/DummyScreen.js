@@ -9,7 +9,7 @@ export default function DummyScreen() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await authApi.get('/api/test/');
+        const response = await authApi.get('/test/protected');
         setData(response.data);
       } catch (error) {
         console.error('Veri alınamadı:', error);

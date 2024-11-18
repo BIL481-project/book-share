@@ -10,7 +10,7 @@ export default function LoginScreen({ navigation }) {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(BACKEND_URL + '/api/auth/login', { email, password });
+      const response = await axios.post(BACKEND_URL + '/auth/login', { email, password });
       const { token } = response.data;
 
       await AsyncStorage.setItem('token', token);
