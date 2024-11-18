@@ -17,7 +17,7 @@ export default function LoginScreen({ navigation }) {
       Alert.alert('Başarılı', 'Giriş yapıldı.');
       navigation.navigate('Home');
     } catch (error) {
-      console.error('Giriş yapılamadı:', error);
+      console.error('Giriş yapılamadı:', error.response.data.error);
       Alert.alert('Hata', 'Giriş başarısız. Lütfen bilgilerinizi kontrol edin.');
     }
   };

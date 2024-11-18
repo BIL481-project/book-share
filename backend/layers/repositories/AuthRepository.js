@@ -11,6 +11,23 @@ const AuthRepository = {
             console.log('Repository katmanında hata:');
             throw new RepositoryError(error.message);
         }
+    },
+    // Kullanıcıyı email adresine göre bul
+    async findUserByEmail(email) {
+        try {
+            const user = await User.findOne({ where: { email } });
+            if (!user) {
+                throw new RepositoryError('User not found.');
+            }
+            return user;
+        } catch (error) {
+            if(error instanceof RepositoryError) {
+                throw error;
+            }
+            else {
+                throw new RepositoryError(error.message);
+            }
+        }
     }
 };
 
