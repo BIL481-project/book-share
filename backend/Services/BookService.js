@@ -58,20 +58,15 @@ module.exports = { getAllBooks, getBookById, addBook };
 //  function(error) { console.log(error) }
 //);
 
-//getBookById(1).then( //valid id giriÅŸ testi
+//getBookById(1).then( //valid id giriþ testi
 //    function(result) { console.log(result) },
 //    function(error) { console.log(error) }
 //);
 
-getBookById(1).then( //valid id giriþ testi
-    function(result) { console.log(result) },
-    function(error) { console.log(error) }
-);
+//getBookById(5).then( //invalid id giriþ testi
+//    function(result) { console.log(result) },
+//    function(error) { console.log(error) }
+//);
 
-getBookById(5).then( //invalid id giriþ testi
-    function(result) { console.log(result) },
-    function(error) { console.log(error) }
-);
-*/
 
 
