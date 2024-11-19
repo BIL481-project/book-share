@@ -6,6 +6,7 @@ const sequelize = new Sequelize('library', 'root', 'alper', {
     dialect: 'mysql', // Kullanılan veritabanı türü (mysql, postgres, sqlite, vb.)
     logging: false,   // Konsola SQL sorguları yazdırmasını engellemek için
 });
+
 async function testConnection() {
   try {
     await sequelize.authenticate();
