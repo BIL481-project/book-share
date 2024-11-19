@@ -30,9 +30,6 @@ async function findAllBooks() {
 async function findBookById(bookId) {
   try {
     const book = await Book.findByPk(bookId);
-    if (!book) {
-        throw new Error("book does not exist.")
-    }
     console.log('findBookById succcess.');
     return book.toJSON();
 
