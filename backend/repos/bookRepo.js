@@ -1,4 +1,4 @@
-const Book = require('../Models/Book');
+const Book = require('../models/book');
 
 //INSERT FUNCTIONS
 async function insertBook(name, location, description, image) {

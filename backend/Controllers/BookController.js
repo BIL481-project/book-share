@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const bookService = require('../Services/BookService');
+const bookService = require('../services/bookService');
 
 // Tüm kitaplarý döndüren endpoint
 router.get('/', async (req, res) => {
