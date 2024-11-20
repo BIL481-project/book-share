@@ -1,5 +1,5 @@
 const express = require('express');
-const AuthController = require('../layers/controllers/AuthController');
+const AuthController = require('../controllers/authController');
 const router = express.Router();
 
 router.post('/signup', AuthController.signup);

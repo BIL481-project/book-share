@@ -1,6 +1,6 @@
-const RepositoryError = require('../../errors/RepositoryError');
-const ServiceError = require('../../errors/ServiceError');
-const AuthService = require('../services/AuthService');
+const RepositoryError = require('../errors/RepositoryError');
+const ServiceError = require('../errors/ServiceError');
+const AuthService = require('../services/authService');
 
 const AuthController = {
     async signup(req, res) {

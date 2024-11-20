@@ -1,10 +1,10 @@
 const bcrypt = require('bcrypt');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
-const AuthRepository = require('../repositories/AuthRepository');
+const AuthRepository = require('../repositories/authRepository');
 
-const ServiceError = require('../../errors/ServiceError');
-const RepositoryError = require('../../errors/RepositoryError');
+const ServiceError = require('../errors/ServiceError');
+const RepositoryError = require('../errors/RepositoryError');
 
 const AuthService = {
     async signupUser(email, password) {
