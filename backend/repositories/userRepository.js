@@ -4,8 +4,9 @@ const createUser = async (userData) => {
     try {
         const user = await User.create(userData);
         return user;
+
     } catch (error) {
-        throw new Error('Error in createUser(): ' + error.message);
+        throw new Error('Error in createUser: ' + error.message);
     }
 };
 
@@ -13,45 +14,67 @@ const findAllUsers = async () => {
     try {
         const users = await User.findAll();
         return users;
+
     } catch (error) {
-        throw new Error('Error in my findAllUsers: ' + error.message);
+        throw new Error('Error in findAllUsers: ' + error.message);
     }
 };
 
-const findUserById = async (id) => {
+const findUserByEmail = async (email) => {
     try {
-        const user = await User.findByPk(id);
+        const user = await User.findOne({
+            where: { email } // username'ý unique alan olarak kullanýyoruz
+        });
         return user;
+
     } catch (error) {
-        throw new Error('Error int findUserById(): ' + error.message);
+        throw new Error('Error in findUserByEmail: ' + error.message);
     }
 };
 
-// Kullanýcý güncelleme
-const updateUser = async (id, userData) => {
+const findUserByUserName = async (userName) => {
     try {
-        const user = await User.findByPk(id);
+        const user = await User.findOne({
+            where: { userName }
+        });
+        return user;
+
+    } catch (error) {
+        throw new Error('Error in findUserByUserName: ' + error.message);
+    }
+}
+
+const updateUser = async (email, userData) => {
+    try {
+        const user = await User.findOne({
+            where: { email }
+        });
         await user.update(userData);
         return user;
+
     } catch (error) {
-        throw new Error('Error in updateUser(): ' + error.message);
+        throw new Error('Error in updateUser: ' + error.message);
     }
 };
 
-const deleteUser = async (id) => {
+const deleteUser = async (email) => {
     try {
-        const user = await User.findByPk(id);
+        const user = await User.findOne({
+            where: { email }
+        });
         await user.destroy();
-        return { message: 'User deleted successfully' };
+        return user;
+
     } catch (error) {
-        throw new Error('Error in deleteUser(): ' + error.message);
+        throw new Error('Error in deleteUser: ' + error.message);
     }
 };
 
 module.exports = {
     createUser,
     findAllUsers,
-    findUserById,
+    findUserByEmail,
+    findUserByUserName,
     updateUser,
     deleteUser
 };

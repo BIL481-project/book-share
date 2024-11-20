@@ -1,67 +1,67 @@
+const Book = require('../models/books');
 
+const createBook = async (bookData) => {
+    try {
+        const book = await Book.create(userBook);
+        return book;
+    } catch (error) {
+        throw new Error('Error in createBook: ' + error.message);
+    }
+};
 
-//const Book = require('../models/book');
+const findAllBooks = async () => {
+    try {
+        const books = await Book.findAll();
+        return books;
+    } catch (error) {
+        throw new Error('Error in findAllBooks: ' + error.message);
+    }
+};
 
-////INSERT FUNCTIONS
-//async function insertBook(name, location, description, image) {
-//  try {
-//    const newBook = await Book.create({
-//      name: name,
-//      description: description,
-//      location: location,
-//      image: image,
-//    });
-//    console.log('insertBook success.');
-//  } catch (error) {
-//    console.error('insertBook error:', error);
-//  }
-//}
+const findBookById = async (id) => {
+    try {
+        const book = await Book.findByPk(id);
+        return book;
+    } catch (error) {
+        throw new Error('Error in findBookByEmail: ' + error.message);
+    }
+};
 
-////GET FUNCTIONS
-//async function findAllBooks() {
-//  try {
-//	const books = await Book.findAll();
-//    console.log('findAllBooks success.');
-//    return books.map((book) => book.toJSON());
+const findBooksByUserId = async (id) => {
+    try {
+        const book = await Book.findMany(
+            where: { id }
+        );
+        return book;
+    } catch (error) {
+        throw new Error('Error in findBookByEmail: ' + error.message);
+    }
+};
 
-//  } catch (error) {
-//    console.error('findAllBooks error:', error);
-//  }
-//}
+const updateBook = async (email, bookData) => {
+    try {
+        const book = await Book.findByPk(id);
+        await book.update(bookData);
+        return book;
+    } catch (error) {
+        throw new Error('Error in updateBook: ' + error.message);
+    }
+};
 
-//async function findBookById(bookId) {
-//  try {
-//    const book = await Book.findByPk(bookId);
-//    console.log('findBookById succcess.');
-//    return book.toJSON();
+const deleteBook = async (id) => {
+    try {
+        const book = await Book.findByPk(id);
+        await book.destroy();
+        return book;
+    } catch (error) {
+        throw new Error('Error in updateBook: ' + error.message);
+    }
+};
 
-//  } catch (error) {
-//    console.error('findBookById error:', error);
-//  }
-//}
-
-//async function findBookByOwnerId(ownerId) {
-//    /* FILL */
-//}
-
-//async function findBookByCommunityId(communityId) {
-//    /* FILL */
-//}
-
-//module.exports = { findAllBooks, findBookById, insertBook }
-
-///* TEST CODE */
-///*
-//findAllBooks().then(
-//  function(result) { console.log(result) },
-//  function(error) { console.log("findAllBooks testingte hata oldu") }
-//);
-
-//findBookById(1).then(
-//    function(result) { console.log(result) },
-//    function(error) { console.log("findBookById'de testingte hata oldu") }
-//)
-//*/
-
-////findBookByOwnerId()
-////findBookByCommunityId()
+module.exports = {
+    createUser,
+    findAllUsers,
+    findUserById,
+    updateUser,
+    deleteUser
+};

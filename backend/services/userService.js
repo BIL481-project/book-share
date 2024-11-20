@@ -1,23 +1,16 @@
-// src/services/userService.js
-const UserRepository = require('../repositories/userRepository'); // UserRepository import ediliyor
-const { ValidationError } = require('sequelize');  // Sequelize'den ValidationError kullanýyoruz
-const { NotFoundError, ConflictError } = require('../utils/errors'); // Özelleþtirilmiþ hata sýnýflarý (daha sonra açýklanacak)
+const UserRepository = require('../repositories/userRepository');
 
-// Kullanýcý oluþturma
 const createUser = async (userData) => {
     try {
         const existingUser = await UserRepository.findUserByEmail(userData.email);
         if (existingUser) {
-            throw new ConflictError('User with this email already exists');
+            throw new Error('User with this email already exists');
         }
         const user = await UserRepository.createUser(userData);
         return user;
 
     } catch (error) {
-        if (error instanceof ValidationError) {
-            throw new Error('Validation error: ' + error.message);
-        }
-        throw error;  // Hata baþka bir türse, yukarýya iletilir
+        throw error;
     }
 };
 
@@ -31,11 +24,11 @@ const getAllUsers = async () => {
     }
 };
 
-const getUserById = async (id) => {
+const getUserByEmail = async (email) => {
     try {
-        const user = await UserRepository.findUserById(id);
+        const user = await UserRepository.findUserByEmail(email);
         if (!user) {
-            throw new NotFoundError('User not found');
+            throw new Error('User not found');
         }
         return user;
 
@@ -44,12 +37,24 @@ const getUserById = async (id) => {
     }
 };
 
-// Kullanýcýyý güncelleme
+const getUserByUserName = async (userName) => {
+    try {
+        const user = await UserRepository.findUserByUserName(userName);
+        if (!user) {
+            throw new Error('User not found');
+        }
+        return user;
+
+    } catch (error) {
+        throw error;
+    }
+};
+
 const updateUser = async (id, userData) => {
     try {
         const user = await UserRepository.findUserById(id);
         if (!user) {
-            throw new NotFoundError('User not found');
+            throw new Error('User not found');
         }
         const updatedUser = await UserRepository.updateUser(email, userData);
         return updatedUser;
@@ -59,17 +64,14 @@ const updateUser = async (id, userData) => {
     }
 };
     
-// Kullanýcýyý güncelleme
 const deleteUser = async (id, userData) => {
     try {
-        const user = await UserRepository.deleteUser(id);
+        const deletedUser = await UserRepository.deleteUser(id);
         if (!user) {
-            throw new NotFoundError('User not found');
+            throw new Error('User not found');
         }
+        return deletedUser;
 
-        // Kullanýcýyý güncelle
-        const updatedUser = await UserRepository.updateUser(email, userData);
-        return updatedUser;
     } catch (error) {
         throw error;
     }
@@ -78,7 +80,8 @@ const deleteUser = async (id, userData) => {
 module.exports = {
     createUser,
     getAllUsers,
-    getUserById,
+    getUserByEmail,
+    getUserByUserName,
     updateUser,
     deleteUser,
 };

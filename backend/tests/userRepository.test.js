@@ -1,18 +1,15 @@
 const UserRepository = require('../repositories/userRepository');
 const User = require('../models/users');
 
-jest.mock('../models/users'); // User modelini mock'la
+jest.mock('../models/users');
+const mockUserData = { userName: 'sample', email: 'sample@example.com', password: 'password' };
 
 describe('userRepository Test', () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
 
-    // Baþarýlý kullanýcý oluþturma testi
     it('should create a new user', async () => {
-        const mockUserData = { userName: 'sample', email: 'sample@example.com', password: 'password' };
-
-        // User.create metodunu mock'layarak baþarý durumu döndürme
         User.create.mockResolvedValue({
             id: 1,
             userName: 'sample',
@@ -22,33 +19,27 @@ describe('userRepository Test', () => {
 
         const user = await UserRepository.createUser(mockUserData);
 
-        // Beklenen sonuçlarý kontrol et
-        expect(user).toHaveProperty('id', 1);
-        expect(user.userName).toBe('sample');
-        expect(user.email).toBe('sample@example.com');
-        expect(user.password).toBe('password');
+        await expect(user).toHaveProperty('id', 1);
+        await expect(user.userName).toBe('sample');
+        await expect(user.email).toBe('sample@example.com');
+        await expect(user.password).toBe('password');
     });
 
-    // Hata durumunda test
     it('should throw an error if user creation fails', async () => {
-        const mockUserData = { userName: 'sample', email: 'sample@example.com', password: 'password' };
-
-        // User.create metodunu mock'layarak hata durumu döndürme
         User.create.mockRejectedValue(new Error('Some error'));
 
-        // Hata fýrlatýldýðýný kontrol et
-        await expect(UserRepository.createUser(mockUserData)).rejects.toThrow('Error in createUser(): Some error');
+        await expect(UserRepository.createUser(mockUserData)).rejects.toThrow('Error in createUser: Some error');
     });
 
-    it('should find the user', async () => {
-        User.findByPk.mockResolvedValue({
+    it('should find the user by user name', async () => {
+        User.findOne.mockResolvedValue({
             id: 1,
             userName: 'sample',
             email: 'sample@example.com',
             password: 'password'
         });
 
-        const user = await UserRepository.findUserById(1);
+        const user = await UserRepository.findUserByUserName('sample');
 
         expect(user).toHaveProperty('id', 1);
         expect(user.userName).toBe('sample');
@@ -57,17 +48,20 @@ describe('userRepository Test', () => {
     });
 
     it('should delete the user', async () => {
-        User.deleteUser.mockResolvedValue({
+        User.findOne.mockResolvedValue({
             id: 1,
             userName: 'sample',
             email: 'sample@example.com',
-            password: 'password'
+            password: 'password',
+            destroy: jest.fn().mockResolvedValue(1), //static function mocklama 
         });
 
-        await UserRepository.deleteUser(1);
+        const user = await UserRepository.deleteUser('sample@example.com');
 
-        // Teste baþlamak için yanýtýn doðru olduðundan emin olun
-        expect(result).toHaveProperty('message', 'User deleted successfully');
+        expect(user).toHaveProperty('id', 1);
+        expect(user.userName).toBe('sample');
+        expect(user.email).toBe('sample@example.com');
+        expect(user.password).toBe('password');
     });
 
 });
