@@ -1,0 +1,24 @@
+[
+    {
+      "id": "1",
+      "title": "Book Title 1",
+      "location": "Library 1",
+      "image": "/assets/book1.jpg",
+      "description": "This is a detailed description of Book Title 1."
+    },
+    {
+      "id": "2",
+      "title": "Book Title 2",
+      "location": "Library 2",
+      "image": "/assets/book2.jpg",
+      "description": "This is a detailed description of Book Title 2."
+    },
+    {
+      "id": "3",
+      "title": "Book Title 3",
+      "location": "Library 3",
+      "image": "/assets/book3.jpg",
+      "description": "This is a detailed description of Book Title 3."
+    }
+  ]
+  
