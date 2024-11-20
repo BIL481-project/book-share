@@ -30,9 +30,12 @@ yarn-error.*
 
 # local env files
 .env*.local
-.env.private
+.env.*
 
 # typescript
 *.tsbuildinfo
+
+#visual studio
+.vs/
 
 package-lock.json
