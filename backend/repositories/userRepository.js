@@ -1,4 +1,7 @@
-const User = require('../models/users');
+const { sequelize } = require("../config/database/db");
+const initModels = require("../models/init-models");
+const models = initModels(sequelize);
+const User = models.users;
 
 const createUser = async (userData) => {
     try {

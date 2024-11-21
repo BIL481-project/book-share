@@ -1,5 +1,8 @@
 const RepositoryError = require('../errors/RepositoryError');
-const User = require('../models/User');
+const { sequelize } = require("../config/database/db");
+const initModels = require("../models/init-models");
+const models = initModels(sequelize);
+const User = models.users;
 
 const AuthRepository = {
     // Yeni kullanıcı oluştur

@@ -6,9 +6,13 @@ const books = require('../../dummy_data/books.json')
 const authRoutes = require('./auth');
 const testRoutes = require('./test/example_protected_route')
 
+const profileRouter = require('./profileRouter')
+
 // Alt route'ları bağlama
 router.use('/auth', authRoutes);  // /auth/login, /auth/signup
 router.use('/test', testRoutes);
+
+router.use('/api/profiles', profileRouter);
 
 router.get('/api/start', (req, res) => {
     res.json({ message: "Kitaplar ekranına yönlendiriliyorsunuz" });
@@ -28,5 +32,6 @@ router.get('/api/books/:id', (req, res) => {
       res.status(404).json({ message: 'Book not found' });
     }
 });
+
 
 module.exports = router;
