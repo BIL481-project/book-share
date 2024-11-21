@@ -32,4 +32,8 @@ const updateUser = async (req, res) => {
     }
 };
 
-module.exports = { createUser, getUser, updateUser };
+module.exports = {
+    createUser,
+    getUser,
+    updateUser,
+};

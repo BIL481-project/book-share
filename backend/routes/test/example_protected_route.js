@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { sequelize } = require("../config/database/db");
-const initModels = require("../models/init-models");
+const { sequelize } = require("../../config/database/db");
+const initModels = require("../../models/init-models");
 const models = initModels(sequelize);
 const User = models.users;
 

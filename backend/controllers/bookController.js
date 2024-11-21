@@ -1,30 +1,36 @@
-const express = require('express');
-const router = express.Router();
-
 const bookService = require('../services/bookService');
 
 // Tüm kitaplarý döndüren endpoint
-router.get('/', async (req, res) => {
+const fetchBooks = async (req, res) => { 
     const books = await bookService.getAllBooks();
     res.json(books);
-});
+};
 
-// Belirli bir ID'ye göre kitap döndüren endpoint
-router.get('/:id', async (req, res) => {
-    const books = await bookService.getAllBooks();
+const getBook = async (req, res) => {
     const bookId = req.params.id;
-    const book = books.find((b) => b.id == bookId); //integer olduðu için ==
+    const book = getBookById(bookId); //integer olduðu için ==
     if (book) {
         res.json(book);
     } else {
         res.status(404).json({ message: 'Book not found' });
     }
-});
+};
 
-router.post('/', async (req, res) => {
+const postBook = async (req, res) => {
     const book = req.body;
-    bookService.addBook(book);
+    bookService.createBook(book);
     res.status(201).json({ message: 'Book added successfuly' });
-});
+};
 
-module.exports = router;
+const deleteBook = async (req, res) => {
+    const bookId = req.params.id;
+    await bookService.deleteBookById(bookId);
+    res.status(200);
+};
+
+module.exports = {
+    fetchBooks,
+    getBook,
+    postBook,
+    deleteBook,
+};
