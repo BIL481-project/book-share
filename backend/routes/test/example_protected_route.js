@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../../models/User');
+const { sequelize } = require("../config/database/db");
+const initModels = require("../models/init-models");
+const models = initModels(sequelize);
+const User = models.users;
 
 const authMiddleware = require('../../middlewares/authMiddleware');
 
