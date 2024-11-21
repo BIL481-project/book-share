@@ -1,4 +1,4 @@
-const User = require('../models/users');
+const { User } = require('../models/init-models')(require('../config/database/db').sequelize);
 
 const createUser = async (userData) => {
     try {
@@ -23,7 +23,7 @@ const findAllUsers = async () => {
 const findUserByEmail = async (email) => {
     try {
         const user = await User.findOne({
-            where: { email } // username'ý unique alan olarak kullanýyoruz
+            where: { email } // username'ï¿½ unique alan olarak kullanï¿½yoruz
         });
         return user;
 

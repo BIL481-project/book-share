@@ -1,44 +1,44 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('notifications', {
-    id: {
-      autoIncrement: true,
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true
+const { DataTypes } = require('sequelize');
+
+module.exports = (sequelize) => {
+  const Notification = sequelize.define(
+    'Notification', // Modelin adı
+    {
+      id: {
+        autoIncrement: true,
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+      },
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'users', // İlişkilendirilen modelin adı
+          key: 'id', // İlişkilendirilen sütun
+        },
+      },
+      content: {
+        type: DataTypes.JSON, // JSON formatında bildirim içeriği
+        allowNull: false,
+      },
     },
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'users',
-        key: 'id'
-      }
-    },
-    content: {
-      type: DataTypes.JSON,
-      allowNull: false
+    {
+      tableName: 'notifications', // Veritabanı tablosunun adı
+      timestamps: false, // createdAt ve updatedAt sütunlarını istemiyoruz
+      indexes: [
+        {
+          name: 'PRIMARY',
+          unique: true,
+          fields: ['id'], // Primary key için indeks
+        },
+        {
+          name: 'userId_FK',
+          fields: ['userId'], // Kullanıcı için indeks
+        },
+      ],
     }
-  }, {
-    sequelize,
-    tableName: 'notifications',
-    timestamps: false,
-    indexes: [
-      {
-        name: "PRIMARY",
-        unique: true,
-        using: "BTREE",
-        fields: [
-          { name: "id" },
-        ]
-      },
-      {
-        name: "userId_FK",
-        using: "BTREE",
-        fields: [
-          { name: "userId" },
-        ]
-      },
-    ]
-  });
+  );
+
+  return Notification;
 };

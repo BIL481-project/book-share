@@ -5,8 +5,8 @@ const AuthService = require('../services/authService');
 const AuthController = {
     async signup(req, res) {
         try {
-            const { email, password } = req.body;
-            const newUser = await AuthService.signupUser(email, password);
+            const { email, password, userName } = req.body;
+            const newUser = await AuthService.signupUser(email, password, userName);
             res.status(201).json({ message: 'User created successfully', user: newUser });
         } catch (error) {
             if (error instanceof RepositoryError) {

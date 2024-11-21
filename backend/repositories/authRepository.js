@@ -1,5 +1,5 @@
 const RepositoryError = require('../errors/RepositoryError');
-const User = require('../models/User');
+const { User } = require('../models/index');
 
 const AuthRepository = {
     // Yeni kullanıcı oluştur
