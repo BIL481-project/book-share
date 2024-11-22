@@ -13,7 +13,7 @@ const bookRouter = require('./bookRouter');
 router.use('/auth', authRoutes);  // /auth/login, /auth/signup
 router.use('/test', testRoutes);
 
-router.use('/api/profiles', profileRouter);
+router.use('/profiles', profileRouter);
 
 router.use('/api/books', bookRouter);
 

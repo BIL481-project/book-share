@@ -1,15 +1,15 @@
 const UserService = require('./userService');
 const BookService = require('./bookService');
 
-const getUserProfile = async (userName) => {
+const getUserProfile = async (filters = {}) => {
     try {
-        const user = await UserService.getUserByUserName(userName);
+        const user = await UserService.getUser(filters);
         if (!user) {
             throw new Error('User not found');
         }
 
         const ownedBooks = await BookService.getAllBooks({
-            where: { ownedId: user.id }
+            where: { ownerId: user.id }
         });
         const borrowedBooks = await BookService.getAllBooks({
             where: { borrowerId: user.id }

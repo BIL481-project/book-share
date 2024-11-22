@@ -7,7 +7,7 @@ const ServiceError = require('../errors/ServiceError');
 const RepositoryError = require('../errors/RepositoryError');
 
 const AuthService = {
-    async signupUser(email, password) {
+    async signupUser(userName, email, password) {
         try {
             if (!email || !password) {
                 throw new ServiceError('Validation error: Email and password are required.');
@@ -19,7 +19,7 @@ const AuthService = {
 
             const hashedPassword = await bcrypt.hash(password, 10);
 
-            const newUser = await AuthRepository.createUser({ email, password: hashedPassword });
+            const newUser = await AuthRepository.createUser({ userName, email, password: hashedPassword });
             console.log('Kullanıcı başarıyla oluşturuldu:', newUser);
             return newUser;
         } catch (error) {

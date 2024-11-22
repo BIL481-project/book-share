@@ -20,7 +20,7 @@ const getBookById = async (id) => {
 
 const getAllBooks = async (filters = {}) => {
     try {
-        const books = await BookRepository.findAllBooks({ where: filters });
+        const books = await BookRepository.findAllBooks(filters);
         return books;
     } catch (error) {
         throw new Error(`Error finding books: ${error.message}`);

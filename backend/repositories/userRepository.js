@@ -23,34 +23,20 @@ const findAllUsers = async () => {
     }
 };
 
-const findUserByEmail = async (email) => {
+const findUser = async (filters = {}) => {
     try {
-        const user = await User.findOne({
-            where: { email } // username'ý unique alan olarak kullanýyoruz
-        });
+        const user = await User.findOne(filters);
         return user;
 
     } catch (error) {
-        throw new Error('Error in findUserByEmail: ' + error.message);
+        throw new Error('Error in findUser: ' + error.message);
     }
 };
 
-const findUserByUserName = async (userName) => {
+const updateUser = async (filters = {}, userData) => {
     try {
         const user = await User.findOne({
-            where: { userName }
-        });
-        return user;
-
-    } catch (error) {
-        throw new Error('Error in findUserByUserName: ' + error.message);
-    }
-}
-
-const updateUser = async (email, userData) => {
-    try {
-        const user = await User.findOne({
-            where: { email }
+            where: filters
         });
         await user.update(userData);
         return user;
@@ -60,10 +46,10 @@ const updateUser = async (email, userData) => {
     }
 };
 
-const deleteUser = async (email) => {
+const deleteUser = async (filters = {}) => {
     try {
         const user = await User.findOne({
-            where: { email }
+            where: filters
         });
         await user.destroy();
         return user;
@@ -76,8 +62,7 @@ const deleteUser = async (email) => {
 module.exports = {
     createUser,
     findAllUsers,
-    findUserByEmail,
-    findUserByUserName,
+    findUser,
     updateUser,
     deleteUser
 };

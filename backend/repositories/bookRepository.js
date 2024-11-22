@@ -23,7 +23,7 @@ const findBookById = async (id) => {
 
 const findAllBooks = async (filters = {}) => {
     try {
-        const books = await Book.findAll({ where: filters });
+        const books = await Book.findAll(filters);
         return books;
     } catch (error) {
         throw new Error(`Error finding books: ${error.message}`);
