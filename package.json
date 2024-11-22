@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "expo/AppEntry.js",
   "scripts": {
-    "dev": "expo start -c --tunnel",
+    "dev:expo": "expo start -c --tunnel",
+    "dev:backend": "node backend/server.js",
     "android": "expo start -c --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
