@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
   const Message = sequelize.define(
-    'Message', // Modelin adı
+    'messages', // Modelin adı
     {
       id: {
         autoIncrement: true,
@@ -47,14 +47,17 @@ module.exports = (sequelize) => {
         {
           name: 'PRIMARY',
           unique: true,
+          using: "BTREE",
           fields: ['id'], // Primary key için indeks
         },
         {
           name: 'senderId_FK',
+          using: "BTREE",
           fields: ['senderId'], // Gönderen kullanıcı için indeks
         },
         {
           name: 'receiverId_FK',
+          using: "BTREE",
           fields: ['receiverId'], // Alıcı kullanıcı için indeks
         },
       ],

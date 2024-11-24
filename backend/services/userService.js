@@ -24,22 +24,9 @@ const getAllUsers = async () => {
     }
 };
 
-const getUserByEmail = async (email) => {
+const getUser = async (filters = {}) => {
     try {
-        const user = await UserRepository.findUserByEmail(email);
-        if (!user) {
-            throw new Error('User not found');
-        }
-        return user;
-
-    } catch (error) {
-        throw error;
-    }
-};
-
-const getUserByUserName = async (userName) => {
-    try {
-        const user = await UserRepository.findUserByUserName(userName);
+        const user = await UserRepository.findUser(filters);
         if (!user) {
             throw new Error('User not found');
         }
@@ -80,8 +67,7 @@ const deleteUser = async (id, userData) => {
 module.exports = {
     createUser,
     getAllUsers,
-    getUserByEmail,
-    getUserByUserName,
+    getUser,
     updateUser,
     deleteUser,
 };

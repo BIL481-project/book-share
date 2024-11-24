@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
   const Book = sequelize.define(
-    'Book', // Modelin adı
+    'books', // Modelin adı
     {
       id: {
         autoIncrement: true,
@@ -59,14 +59,17 @@ module.exports = (sequelize) => {
         {
           name: 'PRIMARY',
           unique: true,
+          using: "BTREE",
           fields: ['id'], // Primary key için indeks
         },
         {
           name: 'ownerId_FK',
+          using: "BTREE",
           fields: ['ownerId'], // ownerId için indeks
         },
         {
           name: 'borrowerId_FK',
+          using: "BTREE",
           fields: ['borrowerId'], // borrowerId için indeks
         },
       ],
