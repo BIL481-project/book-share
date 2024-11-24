@@ -1,4 +1,5 @@
 const { sequelize } = require("../config/database/db");
+const RepositoryError = require("../errors/RepositoryError");
 const initModels = require("../models/init-models");
 const models = initModels(sequelize);
 const Book = models.books;
@@ -8,16 +9,16 @@ const createBook = async (bookData) => {
         const book = await Book.create(bookData);
         return book;
     } catch (error) {
-        throw new Error(`Error creating book: ${error.message}`);
+        throw new RepositoryError(`Error creating book: ${error.message}`);
     }
 };
 
-const findBookById = async (id) => {
+const findBook = async (filters = {}) => {
     try {
-        const book = await Book.findByPk(id);
+        const book = await Book.findOne(filters);
         return book;
     } catch (error) {
-        throw new Error(`Error finding book by ID: ${error.message}`);
+        throw new RepositoryError(`Error finding book: ${error.message}`);
     }
 };
 
@@ -26,36 +27,32 @@ const findAllBooks = async (filters = {}) => {
         const books = await Book.findAll(filters);
         return books;
     } catch (error) {
-        throw new Error(`Error finding books: ${error.message}`);
+        throw new RepositoryError(`Error finding all books: ${error.message}`);
     }
 };
 
-const updateBookById = async (id, updateData) => {
+const updateBook = async (filters = {}, updateData) => {
     try {
-        const [rowsUpdated] = await Book.update(updateData, {
-            where: { id },
-        });
-        return rowsUpdated > 0;
+        const rowsUpdated = await Book.update(updateData, filters);
+        return rowsUpdated;
     } catch (error) {
-        throw new Error(`Error updating book by ID: ${error.message}`);
+        throw new RepositoryError(`Error updating book: ${error.message}`);
     }
 };
 
-const deleteBookById = async (id) => {
+const deleteBook = async (filters = {}) => {
     try {
-        const rowsDeleted = await Book.destroy({
-            where: { id },
-        });
-        return rowsDeleted > 0;
+        const rowsDeleted = await Book.destroy(filters);
+        return rowsDeleted;
     } catch (error) {
-        throw new Error(`Error deleting book by ID: ${error.message}`);
+        throw new RepositoryError(`Error deleting book: ${error.message}`);
     }
 };
 
 module.exports = {
     createBook,
-    findBookById,
+    findBook,
     findAllBooks,
-    updateBookById,
-    deleteBookById
+    updateBook,
+    deleteBook
 };

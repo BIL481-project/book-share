@@ -9,9 +9,9 @@ const createBook = async (bookData) => {
     }
 };
 
-const getBookById = async (id) => {
+const getBook = async (filters = {}) => {
     try {
-        const book = await BookRepository.findBookById(id);
+        const book = await BookRepository.findBook(filters);
         return book;
     } catch (error) {
         throw new Error(`Error finding book by ID: ${error.message}`);
@@ -27,9 +27,9 @@ const getAllBooks = async (filters = {}) => {
     }
 };
 
-const updateBookById = async (id, updateData) => {
+const updateBook = async (id, updateData) => {
     try {
-        const [rowsUpdated] = await BookRepository.updateBookById(updateData, {
+        const [rowsUpdated] = await BookRepository.updateBook(updateData, {
             where: { id },
         });
         return rowsUpdated > 0;
@@ -38,11 +38,9 @@ const updateBookById = async (id, updateData) => {
     }
 };
 
-const deleteBookById = async (id) => {
+const deleteBook = async (filters = {}) => {
     try {
-        const rowsDeleted = await BookRepository.deleteBookById({
-            where: { id },
-        });
+        const rowsDeleted = await BookRepository.deleteBookById(filters);
         return rowsDeleted > 0;
     } catch (error) {
         throw new Error(`Error deleting book by ID: ${error.message}`);
@@ -51,8 +49,8 @@ const deleteBookById = async (id) => {
 
 module.exports = {
     createBook,
-    getBookById,
+    getBook,
     getAllBooks,
-    updateBookById,
-    deleteBookById
+    updateBook,
+    deleteBook,
 };

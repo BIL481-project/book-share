@@ -1,14 +1,18 @@
-const bookService = require('../services/bookService');
+const BookService = require('../services/bookService');
 
 // Tüm kitaplarý döndüren endpoint
 const fetchBooks = async (req, res) => { 
-    const books = await bookService.getAllBooks();
+    const books = await BookService.getAllBooks();
     res.json(books);
 };
 
 const getBook = async (req, res) => {
     const bookId = req.params.id;
-    const book = getBookById(bookId); //integer olduðu için ==
+    const book = await BookService.getBook({
+        where: {
+            id: bookId
+        }
+    });
     if (book) {
         res.json(book);
     } else {
@@ -18,13 +22,13 @@ const getBook = async (req, res) => {
 
 const postBook = async (req, res) => {
     const book = req.body;
-    bookService.createBook(book);
+    BookService.createBook(book);
     res.status(201).json({ message: 'Book added successfuly' });
 };
 
 const deleteBook = async (req, res) => {
     const bookId = req.params.id;
-    await bookService.deleteBookById(bookId);
+    await BookService.deleteBookById(bookId);
     res.status(200);
 };
 
