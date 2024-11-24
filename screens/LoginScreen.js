@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BACKEND_URL } from '@env'; // BACKEND_URL değişkenini .env dosyasından içe aktarıyoruz
+import { HTTP_SERVER_URL, WEBSOCKET_SERVER_URL } from '@env'; // BACKEND_URL değişkenini .env dosyasından içe aktarıyoruz
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -10,7 +10,7 @@ export default function LoginScreen({ navigation }) {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(BACKEND_URL + '/auth/login', { email, password });
+      const response = await axios.post(HTTP_SERVER_URL + '/auth/login', { email, password });
       const { token } = response.data;
 
       await AsyncStorage.setItem('token', token);

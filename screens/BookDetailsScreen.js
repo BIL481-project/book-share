@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet, ActivityIndicator } from 'react-native';
 import axios from 'axios';
-import { BACKEND_URL } from '@env'; // BACKEND_URL değişkenini .env dosyasından içe aktarıyoruz
+import { HTTP_SERVER_URL, WEBSOCKET_SERVER_URL } from '@env'; // BACKEND_URL değişkenini .env dosyasından içe aktarıyoruz
 
 const BookDetailsScreen = ({ route }) => {
     const { bookId } = route.params;
@@ -11,7 +11,7 @@ const BookDetailsScreen = ({ route }) => {
     useEffect(() => {
         const fetchBookDetails = async () => {
             try {
-                const response = await axios.get(BACKEND_URL + '/api/books/' + bookId);
+                const response = await axios.get(HTTP_SERVER_URL + '/books/' + bookId);
                 setBook(response.data);
             } catch (error) {
                 console.error('Error fetching book details:', error);
@@ -33,7 +33,7 @@ const BookDetailsScreen = ({ route }) => {
 
     return (
         <View style={styles.container}>
-            <Image source={{ uri: `${BACKEND_URL}${book.image}` }} style={styles.bookImage} />
+            <Image source={{ uri: `${book.image}` }} style={styles.bookImage} />
             <Text style={styles.bookTitle}>{book.title}</Text>
             <Text style={styles.bookLocation}>Location: {book.location}</Text>
             <Text style={styles.bookDescription}>{book.description}</Text>

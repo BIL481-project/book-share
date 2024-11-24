@@ -2,7 +2,8 @@ require('dotenv').config();
 const app = require('./app');
 
 const { initializeDatabase } = require('./config/database/db');
-const startNgrok = require('./utils/updateBackendUrl');
+//const startNgrok = require('./utils/updateBackendUrl');
+const startNgrok = require('./utils/updateNgrokUrls');
 
 const PORT = process.env.PORT || 3000;
 

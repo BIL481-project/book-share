@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
-import { BACKEND_URL } from '@env'; // BACKEND_URL değişkenini .env dosyasından içe aktarıyoruz
+import { HTTP_SERVER_URL, WEBSOCKET_SERVER_URL } from '@env'; // BACKEND_URL değişkenini .env dosyasından içe aktarıyoruz
 
 export default function HomeScreen({ navigation }) {
     const handleStart = async () => {
         try {
             // API isteği
-            const response = await axios.get(BACKEND_URL + '/api/start'); // Ngrok URL'sini burada kullanabilirsiniz
+            const response = await axios.get(HTTP_SERVER_URL + '/api/start'); // Ngrok URL'sini burada kullanabilirsiniz
             console.log(response.data);
 
             // API yanıtını başarılı olarak aldık, Books ekranına yönlendiriyoruz

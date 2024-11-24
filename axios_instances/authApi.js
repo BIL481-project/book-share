@@ -1,10 +1,10 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BACKEND_URL } from '@env';
+import { HTTP_SERVER_URL, WEBSOCKET_SERVER_URL } from '@env';
 
 // Axios instance'ı oluşturuyoruz
 const authApi = axios.create({
-  baseURL: BACKEND_URL, // Backend'in URL'si
+  baseURL: HTTP_SERVER_URL, // Backend'in URL'si
 });
 
 // Request interceptor ile her isteğe token ekliyoruz

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
-import { BACKEND_URL } from '@env'; // BACKEND_URL değişkenini .env dosyasından içe aktarıyoruz
+import { HTTP_SERVER_URL, WEBSOCKET_SERVER_URL } from '@env'; // BACKEND_URL değişkenini .env dosyasından içe aktarıyoruz
 
 const BooksScreen = () => {
     const [books, setBooks] = useState([]);
@@ -12,8 +12,8 @@ const BooksScreen = () => {
     useEffect(() => {
         const fetchBooks = async () => {
             try {
-                console.log('url:' + BACKEND_URL)
-                const response = await axios.get(BACKEND_URL + '/api/books'); // API'den tüm kitapları çek
+                console.log('url:' + HTTP_SERVER_URL)
+                const response = await axios.get(HTTP_SERVER_URL + '/books'); // API'den tüm kitapları çek
                 setBooks(response.data);
             } catch (error) {
                 console.error('Error fetching books:', error);
@@ -30,7 +30,7 @@ const BooksScreen = () => {
             style={styles.card}
             onPress={() => navigation.navigate('BookDetails', { bookId: item.id })}
         >
-            <Image source={{ uri: `${BACKEND_URL}${item.image}` }} style={styles.bookImage} />
+            <Image source={{ uri: `${item.image}` }} style={styles.bookImage} />
             <Text style={styles.bookTitle}>{item.title}</Text>
             <Text style={styles.bookLocation}>{item.location}</Text>
         </TouchableOpacity>
