@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
-import { BACKEND_URL } from '@env'; // BACKEND_URL değişkenini .env dosyasından içe aktarıyoruz
+import { BACKEND_URL } from '@env'; // BACKEND_URL yerine HTTP_SERVER_URL kullanıyoruz
 
 export default function HomeScreen({ navigation }) {
     const handleStart = async () => {
@@ -26,12 +26,17 @@ export default function HomeScreen({ navigation }) {
         navigation.navigate('Dummy');
     };
 
+    const navigateToWebSocketTest = () => {
+        navigation.navigate('WebSocketTest'); // WebSocketTestScreen'e yönlendirme
+    };
+
     return (
         <View style={styles.container}>
             <Text style={styles.welcomeText}>KitapPaylaş uygulamasına hoşgeldiniz!</Text>
             <Button title="Başla" onPress={handleStart} />
             <Button title="Giriş Yap" onPress={navigateToLogin} />
             <Button title="Protected Route Test" onPress={navigateToDummy} />
+            <Button title="WebSocket Test Ekranı" onPress={navigateToWebSocketTest} />
         </View>
     );
 }

@@ -13,7 +13,7 @@ const BooksScreen = () => {
         const fetchBooks = async () => {
             try {
                 console.log('url:' + BACKEND_URL)
-                const response = await axios.get(BACKEND_URL + '/api/books'); // API'den tüm kitapları çek
+                const response = await axios.get(BACKEND_URL + '/books'); // API'den tüm kitapları çek
                 setBooks(response.data);
             } catch (error) {
                 console.error('Error fetching books:', error);
@@ -30,7 +30,7 @@ const BooksScreen = () => {
             style={styles.card}
             onPress={() => navigation.navigate('BookDetails', { bookId: item.id })}
         >
-            <Image source={{ uri: `${BACKEND_URL}${item.image}` }} style={styles.bookImage} />
+            <Image source={{ uri: `${item.image}` }} style={styles.bookImage} />
             <Text style={styles.bookTitle}>{item.title}</Text>
             <Text style={styles.bookLocation}>{item.location}</Text>
         </TouchableOpacity>

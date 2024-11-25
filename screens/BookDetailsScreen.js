@@ -11,7 +11,7 @@ const BookDetailsScreen = ({ route }) => {
     useEffect(() => {
         const fetchBookDetails = async () => {
             try {
-                const response = await axios.get(BACKEND_URL + '/api/books/' + bookId);
+                const response = await axios.get(BACKEND_URL + '/books/' + bookId);
                 setBook(response.data);
             } catch (error) {
                 console.error('Error fetching book details:', error);
@@ -33,7 +33,7 @@ const BookDetailsScreen = ({ route }) => {
 
     return (
         <View style={styles.container}>
-            <Image source={{ uri: `${BACKEND_URL}${book.image}` }} style={styles.bookImage} />
+            <Image source={{ uri: `${book.image}` }} style={styles.bookImage} />
             <Text style={styles.bookTitle}>{book.title}</Text>
             <Text style={styles.bookLocation}>Location: {book.location}</Text>
             <Text style={styles.bookDescription}>{book.description}</Text>
