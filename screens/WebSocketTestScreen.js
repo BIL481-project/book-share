@@ -46,7 +46,7 @@ const WebSocketTestScreen = () => {
   const sendMessage = () => {
     if (ws && ws.readyState === WebSocket.OPEN) {
       const messageData = { message }; // Gönderilecek mesaj JSON formatında
-      ws.send(JSON.stringify(messageData));
+      ws.send(JSON.stringify({ type: 'test_message', message: messageData }));
       console.log('Mesaj gönderildi:', message);
       setMessage(''); // Mesaj kutusunu temizle
     } else {
