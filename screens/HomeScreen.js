@@ -7,7 +7,7 @@ export default function HomeScreen({ navigation }) {
     const handleStart = async () => {
         try {
             // API isteği
-            const response = await axios.get(BACKEND_URL + '/api/start'); // Ngrok URL'sini burada kullanabilirsiniz
+            const response = await axios.get(BACKEND_URL + '/start'); // Ngrok URL'sini burada kullanabilirsiniz
             console.log(response.data);
 
             // API yanıtını başarılı olarak aldık, Books ekranına yönlendiriyoruz
