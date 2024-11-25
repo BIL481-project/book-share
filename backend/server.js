@@ -4,7 +4,7 @@ const app = require('./app');
 
 const { initializeDatabase } = require('./config/database/db');
 const startNgrok = require('./utils/updateBackendUrl');
-const startWebSocketServer = require('./websocketServer');
+const startWebSocketServer = require('./websocket/websocketServer');
 
 const PORT = process.env.PORT || 3000;
 
