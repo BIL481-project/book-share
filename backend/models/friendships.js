@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
   const Friendship = sequelize.define(
-    'Friendship', // Modelin adı
+    'friendships', // Modelin adı
     {
       id: {
         autoIncrement: true,
@@ -34,14 +34,17 @@ module.exports = (sequelize) => {
         {
           name: 'PRIMARY',
           unique: true,
+          using: "BTREE",
           fields: ['id'], // Primary key için indeks
         },
         {
           name: 'user1Id_FK',
+          using: "BTREE",
           fields: ['user1Id'], // user1Id için indeks
         },
         {
           name: 'user2Id_FK',
+          using: "BTREE",
           fields: ['user2Id'], // user2Id için indeks
         },
       ],

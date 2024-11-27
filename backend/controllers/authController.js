@@ -43,7 +43,28 @@ const AuthController = {
             console.error('Controller Katmanı: Bilinmeyen hata:', error.message);
             res.status(500).json({ error: 'An unexpected error occurred.' });
         }
-    }
+    },
+
+    async getMe(req, res) {
+        try{
+            const authHeader = req.headers['authorization'];
+            const user = await AuthService.getCurrentUser(authHeader);
+            res.status(200).json({ user: user });
+        }    
+        catch(error) {
+            let statusCode = 500;
+
+            if(error.message === 'Token bulunamadı.' || error.message === 'Token formatı geçersiz.') {
+                statusCode = 403;
+            }
+            else if (error.messsage === 'Token geçersiz.') {
+                statusCode = 401;
+            }
+
+            res.status(statusCode).json({ error: error.message});
+        }
+        
+    },
 };
 
 module.exports = AuthController;

@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
   const Notification = sequelize.define(
-    'Notification', // Modelin adı
+    'notifications', // Modelin adı
     {
       id: {
         autoIncrement: true,
@@ -30,10 +30,12 @@ module.exports = (sequelize) => {
         {
           name: 'PRIMARY',
           unique: true,
+          using: "BTREE",
           fields: ['id'], // Primary key için indeks
         },
         {
           name: 'userId_FK',
+          using: "BTREE",
           fields: ['userId'], // Kullanıcı için indeks
         },
       ],

@@ -23,7 +23,12 @@ const AuthService = {
             console.log('Kullanıcı başarıyla oluşturuldu:', newUser);
             return newUser;
         } catch (error) {
-            throw error; // Hata controller katmanına iletiliyor
+            if (error instanceof ServiceError || error instanceof RepositoryError) {
+                throw error;
+            }
+            else {
+                throw new ServiceError(error.message);
+            }
         }
     }, 
 
@@ -58,11 +63,41 @@ const AuthService = {
             if (error instanceof ServiceError || error instanceof RepositoryError) {
                 throw error;
             }
-            else{
+            else {
                 throw new ServiceError(error.message);
             }
         }
-    }
+    }, 
+
+    async getCurrentUser(authHeader) {
+        try {
+            if(!authHeader) {
+                throw new ServiceError('Token bulunamadı.');
+            }
+
+            const token = authHeader.startsWith('Bearer ') ? authHeader.split(' ')[1] : null;
+            if (!token) {
+                throw new ServiceError('Token formatı geçersiz.');
+            }
+
+            let user;
+            try {
+                user = jwt.verify(token, process.env.JWT_SECRET);
+            } catch(error) {
+                throw new ServiceError('Token geçersiz.');
+            }
+
+            return user;
+            
+        } catch(error) {
+            if (error instanceof ServiceError) {
+                throw error;
+            }
+            else {
+                throw new ServiceError(error.message);
+            }
+        }   
+    },
 };
 
 module.exports = AuthService;

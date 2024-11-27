@@ -12,6 +12,7 @@ import InitialScreen from "./screens/UnAuthScreens/InitialScreen";
 import SignInScreen from "./screens/UnAuthScreens/SignInScreen";
 import SignUpScreen from "./screens/UnAuthScreens/SignUpScreen";
 import ProfileScreen from "./screens/ClientScreens/ProfileScreen";
+import WebSocketTestScreen from './screens/WebSocketTestScreen';
 
 const Stack = createStackNavigator();
 
@@ -46,6 +47,7 @@ export default function App() {
         <Stack.Screen name="Books" component={BooksScreen} options={{ title: 'Kitap Listesi' }} />
         <Stack.Screen name="BookDetails" component={BookDetailsScreen} options={{ title: 'Kitap Detayları' }} />
         <Stack.Screen name="Dummy" component={DummyScreen} options={{ title: 'Protected Route Test Ekranı' }} />
+        <Stack.Screen name="WebSocketTest" component={WebSocketTestScreen} options={{ title: 'WebSocket Test Ekranı' }} />
       </Stack.Navigator>
     </NavigationContainer>
 </PaperProvider>

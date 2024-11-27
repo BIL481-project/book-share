@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
   const User = sequelize.define(
-    'User', // Modelin adı
+    'users', // Modelin adı
     {
       id: {
         autoIncrement: true,
@@ -13,12 +13,12 @@ module.exports = (sequelize) => {
       userName: {
         type: DataTypes.STRING(45),
         allowNull: false,
-        unique: true, // Benzersiz
+        unique: "userName_UNIQUE",
       },
       email: {
         type: DataTypes.STRING(255),
         allowNull: false,
-        unique: true, // Benzersiz
+        unique: "email", // Benzersiz
         validate: {
           isEmail: true, // Email format kontrolü
         },
@@ -35,16 +35,19 @@ module.exports = (sequelize) => {
         {
           name: 'PRIMARY',
           unique: true,
+          using: "BTREE",
           fields: ['id'], // Primary key için indeks
         },
         {
           name: 'email',
           unique: true,
+          using: "BTREE",
           fields: ['email'], // Email için indeks
         },
         {
           name: 'userName_UNIQUE',
           unique: true,
+          using: "BTREE",
           fields: ['userName'], // userName için indeks
         },
       ],
