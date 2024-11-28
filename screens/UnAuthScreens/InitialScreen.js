@@ -1,8 +1,7 @@
 import {Button, Text} from "react-native-paper";
-import {View} from "react-native";
+import {View,Image,StyleSheet} from "react-native";
 import React from "react";
-import colors from "./../../common/colors";
-
+import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 
 
 
@@ -15,13 +14,21 @@ const InitialScreen = ({navigation}) => {
 
 
     return (<>
-        <View style={{ display:"flex", top: 200, paddingHorizontal:15, height:"30%", justifyContent:"flex-end"}}>
 
-            <Text style={{flex:2}} variant="displayMedium">Welcome!</Text>
-            <Text style={{flex:2}} variant="headlineSmall">If you are book enthusiasts this is a great place to share!</Text>
+        <View>
+            <SafeAreaProvider>
+                <SafeAreaView style={{top:0}}>
+                    <Image
+                        source={require('./../../common/images/IntroductionPhoto.png')}
+                    />
+                </SafeAreaView>
+            </SafeAreaProvider>
+        </View>
+        <View style={landingStyleSheet.introMessageStyle}>
+            <Text style={{flex:2, color:"white", fontFamily:"Inter"}} variant="displayMedium">Welcome!</Text>
+            <Text style={{flex:2, color:"white"}} variant="headlineSmall">If you are book enthusiasts this is a great place to share!</Text>
 
-            <Button style={{backgroundColor: colors.primary, height:45}} labelStyle={{color:"white"}} onPress={navigateToHome} mode="outlined">
-
+            <Button style={{backgroundColor: "#635A8F", height:45}} labelStyle={{color:"white"}} onPress={navigateToHome} mode="outlined">
                 Get Started
             </Button>
         </View>
@@ -29,6 +36,27 @@ const InitialScreen = ({navigation}) => {
 
 
 }
+
+
+const landingStyleSheet = StyleSheet.create({
+
+    introImageStyle: {
+
+    },
+    introMessageStyle:{
+        display:"flex",
+        top:"70%",
+        paddingHorizontal:15,
+        height:"30%",
+        justifyContent:"flex-end",
+        backgroundColor:"#CB98EB",
+        borderStartStartRadius:25,
+        borderEndStartRadius:25,
+        padding:10,
+    }
+
+
+})
 
 
 export default InitialScreen;
