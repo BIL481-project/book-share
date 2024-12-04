@@ -4,6 +4,7 @@ import { getSessionUserId } from '../utils/getSessionUserId';
 
 let websocket = null;
 let isConnected = false;
+let pingInterval = null;
 
 const connectWebSocket = async () => {
     if (isConnected) {
@@ -23,7 +24,7 @@ const connectWebSocket = async () => {
         console.log('WebSocket connection established.');
         isConnected = true;
 
-        setInterval(() => {
+        pingInterval = setInterval(() => {
             if (websocket && websocket.readyState === WebSocket.OPEN) {
               websocket.send(JSON.stringify({ type: 'ping' }));
               console.log('Ping message sent to keep the connection alive.');
@@ -42,6 +43,11 @@ const connectWebSocket = async () => {
     websocket.onclose = () => {
         console.log('WebSocket connection closed.');
         isConnected = false;
+
+        if (pingInterval) {
+            clearInterval(pingInterval);
+            pingInterval = null;
+        }
     };
 
 };
