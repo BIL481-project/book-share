@@ -22,6 +22,14 @@ const connectWebSocket = async () => {
     websocket.onopen = () => {
         console.log('WebSocket connection established.');
         isConnected = true;
+
+        setInterval(() => {
+            if (websocket && websocket.readyState === WebSocket.OPEN) {
+              websocket.send(JSON.stringify({ type: 'ping' }));
+              console.log('Ping message sent to keep the connection alive.');
+            }
+          }, 15000); // Her 15 saniyede bir "ping" gönder
+
         sendIdentifyMessage(userId);
     };
 
