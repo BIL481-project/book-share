@@ -3,6 +3,7 @@
 const colors = {
 
     primary: "#A47551",
+    alternativePrimary:"#635A8F",
     secondary: "#F7F7F7",
     tertiary: "#FFFFFF",
     error: "#f1453d",

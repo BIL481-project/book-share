@@ -1,6 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
-import {Button, PaperProvider, Text} from 'react-native-paper';
+import { PaperProvider} from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './screens/HomeScreen';
@@ -13,6 +12,9 @@ import SignInScreen from "./screens/UnAuthScreens/SignInScreen";
 import SignUpScreen from "./screens/UnAuthScreens/SignUpScreen";
 import ProfileScreen from "./screens/ClientScreens/ProfileScreen";
 import WebSocketTestScreen from './screens/WebSocketTestScreen';
+import AddBookScreen from "./screens/ClientScreens/AddBookScreen";
+import MyLibraryScreen from "./screens/ClientScreens/MyLibraryScreen";
+import ClientNavigationScreen from "./screens/ClientNavigationScreen";
 
 const Stack = createStackNavigator();
 
@@ -21,6 +23,8 @@ const Stack = createStackNavigator();
 
 
 export default function App() {
+
+
 
 
 
@@ -37,17 +41,21 @@ export default function App() {
         {/*</View>*/}
 <PaperProvider>
     <NavigationContainer>
-      <Stack.Navigator id="1" initialRouteName="Initial">
+      <Stack.Navigator id="1" initialRouteName="ClientNavigationScreen">
         <Stack.Screen name="SignIn" component={SignInScreen} options={{ title: 'SignInScreen' }} />
         <Stack.Screen name="Profile" component={ProfileScreen} options={{ title: 'ProfileScreen.js' }} />
         <Stack.Screen name="SignUp" component={SignUpScreen} options={{ title: 'SignUpScreen' }} />
         <Stack.Screen name="Initial" component={InitialScreen} options={{ title: 'InitialScreen' }} />
+        <Stack.Screen name="MyLibrary" component={MyLibraryScreen} options={{ title: 'MyLibrary' }} />
+        <Stack.Screen name="AddBookScreen" component={AddBookScreen} options={{ title: 'AddBookScreen' }} />
+        <Stack.Screen name="ClientNavigationScreen" component={ClientNavigationScreen} options={{ title: 'ClientNavigationScreens' }} />
         <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'KitapPaylaş' }} />
         <Stack.Screen name="Login" component={LoginScreen} options={{ title: 'Giriş Yap' }} />
         <Stack.Screen name="Books" component={BooksScreen} options={{ title: 'Kitap Listesi' }} />
         <Stack.Screen name="BookDetails" component={BookDetailsScreen} options={{ title: 'Kitap Detayları' }} />
         <Stack.Screen name="Dummy" component={DummyScreen} options={{ title: 'Protected Route Test Ekranı' }} />
         <Stack.Screen name="WebSocketTest" component={WebSocketTestScreen} options={{ title: 'WebSocket Test Ekranı' }} />
+
       </Stack.Navigator>
     </NavigationContainer>
 </PaperProvider>

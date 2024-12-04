@@ -1,52 +1,20 @@
 import {Button,Avatar} from  "react-native-paper";
 import {View, Text, StyleSheet, Image} from "react-native";
 import colors from "../../common/colors";
-import React, {useEffect} from "react";
-import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, {useEffect, useState} from "react";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
 import {LinearGradient} from "expo-linear-gradient";
+import authApi from "../../axios_instances/authApi";
 
 
-const PROFILES_MY = "http://9f6a-88-240-91-56.ngrok-free.app/profiles/my";
+//const PROFILES_MY = "https://b0b8-176-216-173-48.ngrok-free.app/profiles/my";
 
 
 
 function ProfileScreen({navigation}) {
 
-
-
-   async function handleSendReq(){
-
-        // const response = await axios.get(PROFILES_MY, {
-        //     headers: {
-        //         Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImVtYWlsIjoieXVzdWZtcnoxMTFAZ21haWwuY29tIiwiaWF0IjoxNzMyODA2ODM1LCJleHAiOjE3MzI4MTA0MzV9.ByfIUBtiHvtMJv__j4wvSU5nMvAaWwTF6mXMZT4RKfQ`,
-        //     }
-        //
-        // }).then(()=> {
-        //     console.log(response, "bearer");
-        // }).catch((err) => {
-        //     console.log("Error Response Status:", err.response.status);
-        //     console.log("Error Response Headers:", err.response.headers);
-        //     console.log("Error Response Data:", err.response.data);
-        //     console.log('Error: ', err);
-        //     console.log("Response:", response.data);
-        // });
-
-       const response  =  axios({ method: 'get', url: PROFILES_MY, header: { 'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImVtYWlsIjoieXVzdWZtcnoxMTFAZ21haWwuY29tIiwiaWF0IjoxNzMyODA2ODM1LCJleHAiOjE3MzI4MTA0MzV9.ByfIUBtiHvtMJv__j4wvSU5nMvAaWwTF6mXMZT4RKfQ`}})
-           .then(()=> {
-               console.log(response, "bearer");
-           }).catch((err) => {
-           console.log("Error Response Status:", err.response.status);
-           console.log("Error Response Headers:", err.response.headers);
-           console.log("Error Response Data:", err.response.data);
-           console.log('Error: ', err);
-           console.log("Response:", response.data);
-       });
-
-
-
-    }
+    const [userName,setUserName] = useState("");
+    const [email,setEmail] = useState("");
 
 
     useEffect(() => {
@@ -54,23 +22,15 @@ function ProfileScreen({navigation}) {
         console.log("useEffect çalıştı");
 
 
-
         async function getUserself(){
-
-            const BEARER_TOKEN =await AsyncStorage.getItem('token');
-            console.log(BEARER_TOKEN , "bearer token ");
-            console.log(`Bearer ${BEARER_TOKEN}`);
-
-            const response = await axios.get(PROFILES_MY, {
-                headers: {
-                    'Authorization': `Bearer ${BEARER_TOKEN}`
-                }
-            }).then(()=> {
-                console.log(response, "bearer");
-            }).catch((err) => {
-                console.log('Error: ', err);
-            });
-
+            try {
+                const response = await authApi.get('/profiles/my');
+                console.log(response.data);
+                setUserName(response.data.user.userName);
+                setEmail(response.data.user.email);
+            } catch (err){
+                console.error(err);
+            }
         }
         getUserself();
     }, []);
@@ -98,11 +58,11 @@ function ProfileScreen({navigation}) {
 
      <View style={{flex:3, padding:"5%", justifyContent:"top", alignItems:"center"}}>
         <Text style={landingStyleSheet.textUsernameStyle}>
-            David Wilden
+            {userName}
         </Text>
 
         <Text style={landingStyleSheet.textIdStyle}>
-            @David_123
+            {email}
         </Text>
 
          <Text style={[landingStyleSheet.textIdStyle,{marginVertical:25}]}>
@@ -114,9 +74,14 @@ function ProfileScreen({navigation}) {
                  Follow
              </Button>
 
-             <Button onPress={()=> {handleSendReq()}} labelStyle={{ color:"white"}} style={{borderRadius:15,backgroundColor:colors.primary,width:"45%", flex:1, margin:5}} mode="contained">
-                 Message
+             <Button onPress={()=> {}} labelStyle={{ color:"white"}} style={{borderRadius:15,backgroundColor:colors.primary,width:"45%", flex:1, margin:5}} mode="contained">
+                 My Library
              </Button>
+
+             <Button onPress={()=> {navigation.navigate("AddBookScreen")}} labelStyle={{ color:"white"}} style={{borderRadius:15,backgroundColor:colors.primary,width:"45%", flex:1, margin:5}} mode="contained">
+                 +
+             </Button>
+
          </View>
          </View>
     </>)
