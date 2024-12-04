@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
-import authApi from '../../axios_instances/authApi';
+import authApi from '../axios_instances/authApi';
 
 export default function DummyScreen() {
   const [data, setData] = useState(null);

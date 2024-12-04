@@ -7,12 +7,14 @@ const addConnection = (userId, ws) => {
   activeConnections.set(userId, ws);
   console.log(`User ${userId} connected.`);
   sendMessageToUser(userId, 'bağlandın ve eklendin kankim');
+  printActiveUserIds();
 };
 
 // Kullanıcı bağlantısını kaldırır
 const removeConnection = (userId) => {
   activeConnections.delete(userId);
   console.log(`User ${userId} disconnected.`);
+  printActiveUserIds();
 };
 
 // Kullanıcıya mesaj gönderir
@@ -30,6 +32,14 @@ const sendNewNotification = (userId, notificationDetails) => {
     };
     sendMessageToUser(userId, message);
   };
+
+const printActiveUserIds = () => {
+  console.log('Active user IDs:');
+  for (const userId of activeConnections.keys()) {
+    console.log(userId);
+  }
+};
+  
 
 module.exports = {
   addConnection,
