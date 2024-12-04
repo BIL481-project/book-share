@@ -16,11 +16,11 @@ const handleMessage = (message, ws) => {
         }
         break;
 
-      case 'remove_connection':
+      /*case 'remove_connection':
         if(data.userId)  {
           websocketManager.removeConnection(data.userId);
         }
-        break;
+        break;*/
 
       case 'test_message':
         if (ws && ws.readyState === WebSocket.OPEN) {
