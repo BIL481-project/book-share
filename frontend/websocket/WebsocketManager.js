@@ -94,6 +94,11 @@ const handleWebSocketMessage = (event) => {
                 console.log('New notification received:', message.payload);
                 Alert.alert('Notification', message.payload.message);
                 break;
+
+            case 'pong':
+                console.log('Pong received from server. Connection is alive.');
+                break;
+
             default:
                 console.log('Unhandled message type:', message);
         }
@@ -101,5 +106,6 @@ const handleWebSocketMessage = (event) => {
         console.error('Error parsing WebSocket message:', error);
     }
 };
+
 
 export default { connectWebSocket, closeWebSocket, sendIdentifyMessage };

@@ -16,6 +16,16 @@ const handleMessage = (message, ws) => {
         }
         break;
 
+      case 'ping':
+        // Ping mesajını işle
+        if (ws && ws.readyState === WebSocket.OPEN) {
+          console.log('Ping received from client, connection is alive.');
+          ws.send(JSON.stringify({ type: 'pong' })); // İsteğe bağlı olarak "pong" yanıtı gönder
+        } else {
+          console.warn('Ping received but WebSocket is not open.');
+        }
+        break;  
+
       /*case 'remove_connection':
         if(data.userId)  {
           websocketManager.removeConnection(data.userId);
