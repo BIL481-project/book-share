@@ -50,7 +50,7 @@ export default function HomeScreen({ navigation }) {
             <Button title="Giriş Yap" onPress={navigateToLogin} />
             <Button title="Protected Route Test" onPress={navigateToDummy} />
             <Button title="WebSocket Test Ekranı" onPress={navigateToWebSocketTest} />
-            <Button title="Remove Token" onPress={handleRemoveToken} />
+            <Button title="Logout" onPress={handleRemoveToken} />
         </View>
     );
 }
