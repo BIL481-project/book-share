@@ -16,6 +16,7 @@ import WebSocketTestScreen from './screens/WebSocketTestScreen';
 import AddBookScreen from "./screens/ClientScreens/AddBookScreen";
 import MyLibraryScreen from "./screens/ClientScreens/MyLibraryScreen";
 import ClientNavigationScreen from "./screens/ClientNavigationScreen";
+import AddBookScreenFurki from './screens/AddBookScreenFurki';
 
 const Stack = createStackNavigator();
 
@@ -73,6 +74,7 @@ export default function App() {
         <Stack.Screen name="BookDetails" component={BookDetailsScreen} options={{ title: 'Kitap Detayları' }} />
         <Stack.Screen name="Dummy" component={DummyScreen} options={{ title: 'Protected Route Test Ekranı' }} />
         <Stack.Screen name="WebSocketTest" component={WebSocketTestScreen} options={{ title: 'WebSocket Test Ekranı' }} />
+        <Stack.Screen name="AddBookFurki" component={AddBookScreenFurki} options={{ title: 'Kitap Ekleme Ekranı' }} />
 
       </Stack.Navigator>
     </NavigationContainer>

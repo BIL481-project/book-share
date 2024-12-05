@@ -32,6 +32,8 @@ export default function HomeScreen({ navigation }) {
         navigation.navigate('WebSocketTest'); // WebSocketTestScreen'e yönlendirme
     };
 
+    const navigateToAddBookScreen = () => navigation.navigate('AddBookFurki'); // Fotoğraf ekranına yönlendirme
+
     const handleRemoveToken = async () => {
         try {
             await WebsocketManager.closeWebSocket();
@@ -50,6 +52,7 @@ export default function HomeScreen({ navigation }) {
             <Button title="Giriş Yap" onPress={navigateToLogin} />
             <Button title="Protected Route Test" onPress={navigateToDummy} />
             <Button title="WebSocket Test Ekranı" onPress={navigateToWebSocketTest} />
+            <Button title="Kitap Ekle" onPress={navigateToAddBookScreen} />
             <Button title="Logout" onPress={handleRemoveToken} />
         </View>
     );
