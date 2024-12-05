@@ -19,14 +19,23 @@ function  SignInScreen({navigation}) {
 
     async function handleSignIn(){
 
-        const response = await axios.post(`${BACKEND_URL}/auth/login`,{"userName":username,email,password});
+        console.log("Sign In Screen", email, password,username);
+        console.log(BACKEND_URL)
 
-        console.log(response.data, "data");
+        try {
+            const response = await axios.post(`${BACKEND_URL}/auth/login`, {"userName": username, email, password});
+            console.log(response.data, "data");
+            const {token} = response.data;
+            await AsyncStorage.setItem('token', token);
+            navigation.navigate('ClientNavigationScreen');
+        } catch(err){
+            console.log(err)
+        }
 
-        const {token} = response.data;
-        await AsyncStorage.setItem('token', token);
 
-        navigation.navigate('Profile');
+
+
+
     }
 
     return (

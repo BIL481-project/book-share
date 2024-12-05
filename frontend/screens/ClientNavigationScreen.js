@@ -1,13 +1,35 @@
 import {BottomNavigation} from "react-native-paper";
-import {useState} from "react";
+import { useState} from "react";
 import ProfileScreen from "./ClientScreens/ProfileScreen";
 import HomeScreen from "./ClientScreens/HomeScreen";
 import CommunicateScreen from "./ClientScreens/CommunicateScreen";
 import CommunityScreen from "./ClientScreens/CommunityScreen";
+//import authApi from "../axios_instances/authApi";
+//import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
-function ClientNavigationScreen(){
+function ClientNavigationScreen({navigation}){
+
+    // useEffect(() => {
+    //
+    //     async function getData(){
+    //
+    //         try{
+    //             const response = await authApi.get('/profiles/my');
+    //             console.log(response.data);
+    //             await AsyncStorage.setItem("userData",response.data)
+    //             console.log("Depoya userData eklendi");
+    //         } catch(err){
+    //             console.log(err);
+    //         }
+    //     }
+    //
+    //     getData();
+    // }, []);
+
+
+
 
 
     const [index,setIndex] = useState(0);
@@ -19,9 +41,9 @@ function ClientNavigationScreen(){
     ]);
 
     const renderScene = BottomNavigation.SceneMap({
-        home:HomeScreen,
-        communication:CommunicateScreen,
-        profile:ProfileScreen,
+        home:() => HomeScreen({navigation}),
+        communication:()=>  CommunicateScreen({navigation}),
+        profile: () => ProfileScreen({navigation}),
         community:CommunityScreen
     })
 

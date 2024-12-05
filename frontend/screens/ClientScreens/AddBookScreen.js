@@ -4,7 +4,10 @@ import {View} from "react-native";
 import CustomTextInput from "../../components/CustomTextInput";
 import {StyleSheet} from "react-native";
 import {LinearGradient} from "expo-linear-gradient";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
+import { BACKEND_URL } from '@env';
+import authApi from "../../axios_instances/authApi";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function AddBookScreen({navigation}){
 
@@ -13,6 +16,46 @@ function AddBookScreen({navigation}){
    // const [imageUri, setImageUri] = useState("");
     const [location, setLocation] = useState("");
     const [genre, setGenre] = useState("");
+    const [userId, setUserId] = useState("");
+
+
+    useEffect(() => {
+
+        async function getUserData(){
+            try {
+                const res = await authApi.get(`${BACKEND_URL}/profiles/my`);
+                console.log(res.data.user.id, "res");
+                setUserId(res.data.user.id);
+            } catch (err){
+                console.log(err)
+                const cvp = AsyncStorage.getItem("token");
+                console.log(cvp)
+            }
+        }
+        getUserData();
+
+    }, []);
+
+    async function handleAddBook(){
+
+        console.log(bookName, userId, location, genre,description);
+
+        if(userId !== undefined && bookName !== undefined){
+            try{
+                const response  = await authApi.post(`${BACKEND_URL}/books/`,
+                    {name:bookName,ownerId:userId,description:description,location:location,genre:genre});
+
+                console.log(response.status);
+
+                navigation.navigate('ClientNavigationScreen');
+
+            } catch(err){
+                console.log(err);
+            }
+        }
+    }
+
+
 
 
     return(<>
@@ -66,7 +109,7 @@ function AddBookScreen({navigation}){
 
 
         <View style={{flex:1, alignItems:"center", justifyContent:"flex-end"}}>
-         <Button onPress={()=>{navigation.navigate('MyLibraryScreen')}} labelStyle={{ color:"white"}} style={{borderRadius:15,backgroundColor:colors.alternativePrimary,width:"90%",marginHorizontal:5,marginVertical:20}} mode="contained">
+         <Button onPress={()=>{handleAddBook()}} labelStyle={{ color:"white"}} style={{borderRadius:15,backgroundColor:colors.alternativePrimary,width:"90%",marginHorizontal:5,marginVertical:20}} mode="contained">
             Add Book
         </Button>
         </View>

@@ -78,11 +78,14 @@ function ProfileScreen({navigation}) {
                  My Library
              </Button>
 
-             <Button onPress={()=> {navigation.navigate("AddBookScreen")}} labelStyle={{ color:"white"}} style={{borderRadius:15,backgroundColor:colors.primary,width:"45%", flex:1, margin:5}} mode="contained">
-                 +
-             </Button>
-
          </View>
+
+         <View style={{ height:50, width:"100%",alignItems:"center"}}>
+            <Button onPress={()=> {navigation.navigate("AddBookScreen")}} labelStyle={{ color:"white"}} style={{height:40,borderRadius:15,backgroundColor:colors.primary,width:"55%"}}>
+                AddBooks
+            </Button>
+         </View>
+
          </View>
     </>)
 
