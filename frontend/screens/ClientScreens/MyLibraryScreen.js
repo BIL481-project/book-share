@@ -24,7 +24,7 @@ return (<>
             <Text style={{flex:1,fontSize:24,textAlign:"center",color:"white"}}>1</Text>
             <Text style={{flex:3,fontSize:22,textAlign:"center",color:"white"}}>Atomic Habits</Text>
             <View style={{flex:1, alignItems:"center"}}>
-            <Icon size={20} style={{flex:1}} source={require("./../../assets/cham (1).png")}/>
+            <Icon size={20} style={{flex:1}} source={require("../../../assets/cham (1).png")}/>
             </View>
         </View>
 
@@ -34,7 +34,7 @@ return (<>
         </View>
 
         <View style={{height:200,justifyContent:"center",alignItems:"center"}}>
-            <Image source={require("./../../assets/book1.jpg")} style={{width:150,height:200,margin:20,resizeMode:"cover"}}/>
+            <Image source={require("../../../assets/book1.jpg")} style={{width:150,height:200,margin:20,resizeMode:"cover"}}/>
         </View>
 
     </View>
