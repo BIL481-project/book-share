@@ -1,4 +1,4 @@
-const eventBus = require('./eventBus');
+const eventBus = require('../utils/eventBus');
 const { sendNewNotification } = require('./websocketManager');
 
 // Yeni bir bildirim gönderme olayını yakalar

@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, Button, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
 import { BACKEND_URL } from '@env'; // BACKEND_URL yerine HTTP_SERVER_URL kullanıyoruz
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import WebsocketManager from '../websocket/WebsocketManager';
 
 export default function HomeScreen({ navigation }) {
     const handleStart = async () => {
@@ -30,6 +32,17 @@ export default function HomeScreen({ navigation }) {
         navigation.navigate('WebSocketTest'); // WebSocketTestScreen'e yönlendirme
     };
 
+    const handleRemoveToken = async () => {
+        try {
+            await WebsocketManager.closeWebSocket();
+            await AsyncStorage.removeItem('token'); // Token'ı AsyncStorage'dan sil
+            Alert.alert('Başarılı', 'Token başarıyla silindi');
+        } catch (error) {
+            console.error('Token silme sırasında hata:', error);
+            Alert.alert('Hata', 'Token silinirken bir sorun oluştu');
+        }
+    };
+
     return (
         <View style={styles.container}>
             <Text style={styles.welcomeText}>KitapPaylaş uygulamasına hoşgeldiniz!</Text>
@@ -37,6 +50,7 @@ export default function HomeScreen({ navigation }) {
             <Button title="Giriş Yap" onPress={navigateToLogin} />
             <Button title="Protected Route Test" onPress={navigateToDummy} />
             <Button title="WebSocket Test Ekranı" onPress={navigateToWebSocketTest} />
+            <Button title="Remove Token" onPress={handleRemoveToken} />
         </View>
     );
 }
