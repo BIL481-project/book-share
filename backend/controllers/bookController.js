@@ -60,10 +60,38 @@ const lendBook = async (req, res) => {
     }
 };
 
+const returnBook = async (req, res) => {
+    const { bookId } = req.params; // URL parametresinden bookId al
+    const userId = req.user.userId; // Middleware'den gelen authenticated userId
+
+    try {
+        const result = await BookService.returnBook(bookId, userId);
+        if (result.success) {
+            return res.status(200).json({ message: result.message });
+        } else {
+            return res.status(400).json({ message: result.message });
+        }
+    } catch (error) {
+        if (error instanceof RepositoryError) {
+            console.error('Repository katmanı hatası: ' + error.message);
+            return res.status(500).json({ error: error.message });
+        }
+        if (error instanceof ServiceError) {
+            console.error('Service katmanı hatası: ', error.message);
+            return res.status(400).json({ error: error.message });
+        }
+
+        console.error('Error in returnBook controller:', error.message);
+        return res.status(500).json({ message: `Error returning book: ${error.message}` });
+    }
+};
+
+
 module.exports = {
     fetchBooks,
     getBook,
     postBook,
     deleteBook,
     lendBook,
+    returnBook,
 };

@@ -82,7 +82,7 @@ const lendBook = async (bookId, borrowerId) => {
         await transaction.commit();
 
         eventBus.emit('new-notification', { userId: book.ownerId, notificationDetails: {
-            message: "Your book named " + book.name + " has been borrowed by the user with the ID: " + borrowerId
+            message: "Your book named " + book.name + " has been BORROWED by the user with the ID: " + borrowerId
         } });
 
         return { success: true, message: 'Book successfully lent.' };
@@ -96,6 +96,49 @@ const lendBook = async (bookId, borrowerId) => {
     }
 };
 
+const returnBook = async (bookId, userId) => {
+    const transaction = await sequelize.transaction(); // Transaction başlat
+    try {
+        // Kitabın mevcut durumunu kontrol et
+        const book = await BookRepository.findBook({ where: { id: bookId } });
+
+        if (!book) {
+            throw new ServiceError('Book not found.');
+        }
+
+        if (book.borrowerId !== userId) {
+            throw new ServiceError('You cannot return a book you did not borrow.');
+        }
+
+        // Kitabı güncelle
+        const rowsUpdated = await BookRepository.updateBook(
+            { where: { id: bookId } },
+            { borrowerId: null, isAvailable: 1 }, // borrowerId null, isAvailable 1 yap
+            transaction
+        );
+
+        if (rowsUpdated === 0) {
+            throw new ServiceError('Book update failed. No rows were updated.');
+        }
+
+        await transaction.commit(); // Transaction başarıyla tamamlandı
+
+        eventBus.emit('new-notification', { userId: book.ownerId, notificationDetails: {
+            message: "Your book named " + book.name + " has been RETURNED by the user with the ID: " + userId
+        } });
+
+        return { success: true, message: 'Book successfully returned.' };
+    } catch (error) {
+        await transaction.rollback(); // Hata durumunda transaction'ı geri al
+
+        if (error instanceof ServiceError || error instanceof RepositoryError) {
+            throw error;
+        }
+        throw new ServiceError(`Error in returnBook service: ${error.message}`);
+    }
+};
+
+
 module.exports = {
     createBook,
     getBook,
@@ -103,4 +146,5 @@ module.exports = {
     updateBook,
     deleteBook,
     lendBook,
+    returnBook,
 };
