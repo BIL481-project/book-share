@@ -1,6 +1,8 @@
 const BookService = require('../services/bookService');
+const RepositoryError = require('../errors/RepositoryError');
+const ServiceError = require('../errors/ServiceError');
 
-// Tüm kitaplarý döndüren endpoint
+// Tï¿½m kitaplarï¿½ dï¿½ndï¿½ren endpoint
 const fetchBooks = async (req, res) => { 
     const books = await BookService.getAllBooks();
     res.json(books);
@@ -32,9 +34,36 @@ const deleteBook = async (req, res) => {
     res.status(200);
 };
 
+const lendBook = async (req, res) => {
+    const { bookId } = req.params; 
+    const borrowerId = req.user.userId;
+
+    try {
+        const result = await BookService.lendBook(bookId, borrowerId);
+        if (result.success) {
+            return res.status(200).json({ message: result.message });
+        } else {
+            return res.status(400).json({ message: result.message });
+        }
+    } catch (error) {
+        if (error instanceof RepositoryError) {
+            console.error('Repository katmanÄ± hatasÄ±: ' + error.message);
+            return res.status(500).json({ error: error.message });
+        }
+        if (error instanceof ServiceError) {
+            console.error('Service katmanÄ± hatasÄ±: ', error.message);
+            return res.status(400).json({ error: error.message });
+        }
+
+        console.error('Error in lendBook controller:', error.message);
+        return res.status(500).json({ message: `Error lending book: ${error.message}` });
+    }
+};
+
 module.exports = {
     fetchBooks,
     getBook,
     postBook,
     deleteBook,
+    lendBook,
 };

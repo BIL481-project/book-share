@@ -28,14 +28,20 @@ const findAllBooks = async (filters = {}) => {
     }
 };
 
-const updateBook = async (filters = {}, updateData) => {
+const updateBook = async (filters = {}, updateData, transaction = null) => {
     try {
-        const rowsUpdated = await Book.update(updateData, filters);
+        const options = { ...filters };
+        if (transaction) {
+            options.transaction = transaction; // Transaction'ı ekle
+        }
+
+        const [rowsUpdated] = await Book.update(updateData, options); // Satırları güncelle
         return rowsUpdated;
     } catch (error) {
         throw new RepositoryError(`Error updating book: ${error.message}`);
     }
 };
+
 
 const deleteBook = async (filters = {}) => {
     try {

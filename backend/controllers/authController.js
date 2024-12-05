@@ -54,10 +54,7 @@ const AuthController = {
         catch(error) {
             let statusCode = 500;
 
-            if(error.message === 'Token bulunamadı.' || error.message === 'Token formatı geçersiz.') {
-                statusCode = 403;
-            }
-            else if (error.messsage === 'Token geçersiz.') {
+            if(error instanceof ServiceError) {
                 statusCode = 401;
             }
 

@@ -3,6 +3,9 @@ import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BACKEND_URL } from '@env'; // BACKEND_URL değişkenini .env dosyasından içe aktarıyoruz
+// import { getSessionUserId } from '../utils/getSessionUserId';
+// import { sendIdentifyMessage } from '../websocket/WebsocketManager';
+import WebsocketManager from '../websocket/WebsocketManager';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -12,9 +15,15 @@ export default function LoginScreen({ navigation }) {
     try {
       const response = await axios.post(BACKEND_URL + '/auth/login', { email, password });
       const { token } = response.data;
-
       await AsyncStorage.setItem('token', token);
       Alert.alert('Başarılı', 'Giriş yapıldı.');
+
+      try {
+        WebsocketManager.connectWebSocket();
+      } catch (error) {
+        console.error('Error: ' + error);
+      }
+
       navigation.navigate('Home');
     } catch (error) {
       console.error('Giriş yapılamadı:', error.response.data.error);
