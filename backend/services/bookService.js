@@ -61,6 +61,10 @@ const lendBook = async (bookId, borrowerId) => {
             throw new ServiceError('Book not found.');
         }
 
+        if (book.ownerId == borrowerId) {
+            throw new ServiceError('You cannot borrow your own book.');
+        }
+
         if (!book.isAvailable) {
             throw new ServiceError('Book is not available for lending.');
         }
