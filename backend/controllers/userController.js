@@ -11,7 +11,7 @@ const createUser = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
     try {
-        const users = await UserServiec.getAllUsers();
+        const users = await UserService.getAllUsers();
         return users;
 
     } catch (error) {
@@ -30,6 +30,6 @@ const updateUser = async (req, res) => {
 
 module.exports = {
     createUser,
-    getUser,
+    getAllUsers,
     updateUser,
 };

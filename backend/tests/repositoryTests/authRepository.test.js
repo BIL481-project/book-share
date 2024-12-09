@@ -1,5 +1,5 @@
-const AuthRepository = require('../repositories/authRepository');
-const { User } = require('../models/index');
+const AuthRepository = require('../../repositories/authRepository');
+const { User } = require('../../models/index');
 
 jest.mock('../models/index', () => {
     return {

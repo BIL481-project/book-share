@@ -1,7 +1,7 @@
-const UserRepository = require('../repositories/userRepository');
-const User = require('../models/users');
+const UserRepository = require('../../repositories/userRepository');
+const User = require('../../models/users');
 
-jest.mock('../models/users');
+jest.mock('../../models/users');
 const mockUserData = { userName: 'sample', email: 'sample@example.com', password: 'password' };
 
 describe('userRepository Test', () => {
