@@ -1,6 +1,6 @@
-const BookController = require('../controllers/bookController');
-const BookService = require('../services/bookService');
-const RepositoryError = require('../errors/RepositoryError');
+const BookController = require('../../controllers/bookController');
+const BookService = require('../../services/bookService');
+const RepositoryError = require('../../errors/RepositoryError');
 const ServiceError = require('../../errors/ServiceError');
 
 jest.mock('../../services/bookService');
