@@ -32,10 +32,6 @@ function  SignInScreen({navigation}) {
             console.log(err)
         }
 
-
-
-
-
     }
 
     return (

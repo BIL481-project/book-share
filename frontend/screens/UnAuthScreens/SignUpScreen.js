@@ -51,7 +51,7 @@ function SignUpScreen({navigation}) {
 
 
 
-        <Text variant="displaySmall" style={{fontFamily:'Inter_900Black',color:"white",fontWeight:400}} onPress={()=> navigation.navigate("SignIn")}>
+        <Text variant="displaySmall" style={{fontFamily:'Inter_900Black',color:"white",fontWeight:400}}>
             Sign Up
         </Text>
         </View>
@@ -97,6 +97,7 @@ function SignUpScreen({navigation}) {
                 onChangeText={setPasswordRepeat}
             />
 
+            <Text onPress={()=> navigation.navigate("SignIn")} style={{color:"blue",padding:15}} >Hesabınız varsa giriş yapın</Text>
 
         </View>
 

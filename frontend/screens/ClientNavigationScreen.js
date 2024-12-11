@@ -11,22 +11,23 @@ import CommunityScreen from "./ClientScreens/CommunityScreen";
 
 function ClientNavigationScreen({navigation}){
 
-    // useEffect(() => {
+    // useEffect(() =
+    // useEffect(() =
     //
-    //     async function getData(){
+    //     async function getDat
     //
-    //         try{
+    //         {
     //             const response = await authApi.get('/profiles/my');
     //             console.log(response.data);
     //             await AsyncStorage.setItem("userData",response.data)
-    //             console.log("Depoya userData eklendi");
-    //         } catch(err){
-    //             console.log(err);
+    //             console.log(nahsfıans)
+    //         } catch(err)
+    //             console.log(er;
     //         }
     //     }
     //
-    //     getData();
-    // }, []);
+    //     etData();
+    // }, [
 
 
 

@@ -5,6 +5,7 @@ import React, {useEffect, useState} from "react";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
 import {LinearGradient} from "expo-linear-gradient";
 import authApi from "../../axios_instances/authApi";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 //const PROFILES_MY = "https://b0b8-176-216-173-48.ngrok-free.app/profiles/my";
@@ -25,9 +26,13 @@ function ProfileScreen({navigation}) {
         async function getUserself(){
             try {
                 const response = await authApi.get('/profiles/my');
-                console.log(response.data);
+                await AsyncStorage.setItem('userID', String(response.data.user.id));
+                console.log("Line 30")
+                //console.log(response.data.user.id, "Response Data");
                 setUserName(response.data.user.userName);
                 setEmail(response.data.user.email);
+                // const id = await AsyncStorage.getItem('userID');
+                // console.log("Data kaydedildi" , id)
             } catch (err){
                 console.error(err);
             }
@@ -74,7 +79,7 @@ function ProfileScreen({navigation}) {
                  Follow
              </Button>
 
-             <Button onPress={()=> {}} labelStyle={{ color:"white"}} style={{borderRadius:15,backgroundColor:colors.primary,width:"45%", flex:1, margin:5}} mode="contained">
+             <Button onPress={()=> {navigation.navigate("MyLibrary")}} labelStyle={{ color:"white"}} style={{borderRadius:15,backgroundColor:colors.primary,width:"45%", flex:1, margin:5}} mode="contained">
                  My Library
              </Button>
 
