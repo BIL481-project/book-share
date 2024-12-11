@@ -22,7 +22,7 @@ function ClientNavigationScreen({navigation}){
     //             await AsyncStorage.setItem("userData",response.data)
     //             console.log(nahsfıans)
     //         } catch(err)
-    //             console.log(er;
+    //             console.lsadog(er;
     //         }
     //     }
     //

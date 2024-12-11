@@ -8,9 +8,6 @@ import authApi from "../../axios_instances/authApi";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
-//const PROFILES_MY = "https://b0b8-176-216-173-48.ngrok-free.app/profiles/my";
-
-
 
 function ProfileScreen({navigation}) {
 
@@ -23,8 +20,11 @@ function ProfileScreen({navigation}) {
         console.log("useEffect çalıştı");
 
 
+
+
         async function getUserself(){
             try {
+
                 const response = await authApi.get('/profiles/my');
                 await AsyncStorage.setItem('userID', String(response.data.user.id));
                 console.log("Line 30")

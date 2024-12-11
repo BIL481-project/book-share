@@ -1,9 +1,11 @@
-import {Image, StyleSheet, View, ScrollView, TouchableOpacity} from "react-native";
+import {StyleSheet, View, ScrollView, TouchableOpacity} from "react-native";
 import React, {useEffect, useState} from "react";
-import {Text,Icon} from "react-native-paper";
+import {Portal, Modal, PaperProvider} from "react-native-paper";
 import authApi from "../../axios_instances/authApi";
 import { BACKEND_URL } from '@env';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import CustomBookComponent from "../../components/CustomBookComponent";
+import CustomBookDetails from "../../components/CustomBookDetails";
 
 
 
@@ -11,6 +13,9 @@ function MyLibraryScreen(){
 
     const [bookData, setBookData] = useState([]);
     const [userID, setUserID] = useState(-1);
+    const [visible, setVisible] = React.useState(false);
+    const showModal = (index) => setVisible(index);
+    const hideModal = () => setVisible(false);
 
     useEffect(() => {
 
@@ -43,38 +48,32 @@ function MyLibraryScreen(){
 
     return(<>
 
-        <ScrollView>
-            <View style={{borderRadius:20,alignItems:"center"}}>
+        <PaperProvider>
+            <ScrollView>
+                <View style={{borderRadius:20,alignItems:"center"}}>
 
-                {bookData.map((item,index,_)=> {
+                    {bookData.map((item,index,_)=> {
 
-                    if(item?.ownerId === userID)
-                        return (<>
-                    <TouchableOpacity onPress={()=> console.log("AMK")} key={index} style={{borderRadius:30,borderColor:"white",backgroundColor:"red", width:"90%",paddingVertical:15,margin:"2%"}}>
+                        if(item.borrowerId===userID || item.ownerId===userID)
+                            return (
 
-                        <View style={{flexDirection:"row", alignItems:"center"}}>
-                            <Text style={{flex:1,fontSize:24,textAlign:"center",color:"white"}}>{index+1}</Text>
-                            <Text style={{flex:3,fontSize:22,textAlign:"center",color:"white"}}>{item.name}</Text>
-                            <View style={{flex:1, alignItems:"center"}}>
-                                <Icon size={20} style={{flex:1}} source={require("../../../assets/cham (1).png")}/>
-                            </View>
-                        </View>
+                        <TouchableOpacity onPress={() => showModal(index)} key={index} style={{borderRadius:30,borderColor:"white",backgroundColor:"red", width:"90%",paddingVertical:15,margin:"2%"}}>
 
-                        <View style={{padding:5}}>
-                            <Text style={{fontSize:20,textAlign:"center",color:"white"}}>{item.genre}</Text>
-                            <Text style={{fontSize:20,textAlign:"center",color:"white"}}>{item.location}</Text>
-                        </View>
+                            <CustomBookComponent item={item} index={index}/>
 
-                        <View style={{height:200,justifyContent:"center",alignItems:"center"}}>
-                            <Image source={{uri:`${item.image}`}} style={{width:150,height:200,margin:20,resizeMode:"cover"}}/>
-                        </View>
+                            <Portal>
+                                <Modal  visible={visible === index} onDismiss={hideModal} contentContainerStyle={landingStylesheet.containerStyle}>
+                                    <CustomBookDetails item={item}/>
+                                </Modal>
+                            </Portal>
 
-                    </TouchableOpacity>
-                            </>
-                )})}
+                        </TouchableOpacity>
 
-            </View>
-        </ScrollView>
+                    )}
+                    )}
+                </View>
+            </ScrollView>
+        </PaperProvider>
     </>)
 
 
@@ -90,9 +89,10 @@ const landingStylesheet = StyleSheet.create({
         top: 0,
         height:"100%",
         width:"120%",
-    },
-
-
+    },containerStyle:{
+        backgroundColor: 'white',
+        padding: 20
+    }
 });
 
 

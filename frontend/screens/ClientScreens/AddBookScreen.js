@@ -1,6 +1,6 @@
 import {Button} from "react-native-paper";
 import colors from "../../common/colors";
-import {View} from "react-native";
+import {TouchableOpacity, View, Image} from "react-native";
 import CustomTextInput from "../../components/CustomTextInput";
 import {StyleSheet} from "react-native";
 import {LinearGradient} from "expo-linear-gradient";
@@ -8,6 +8,7 @@ import React, {useEffect, useState} from "react";
 import { BACKEND_URL } from '@env';
 import authApi from "../../axios_instances/authApi";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {pickImage} from "../../utils/imageUtils";
 
 function AddBookScreen({navigation}){
 
@@ -17,7 +18,7 @@ function AddBookScreen({navigation}){
     const [location, setLocation] = useState("");
     const [genre, setGenre] = useState("");
     const [userId, setUserId] = useState("");
-
+    const [image, setImage] = useState("");
 
     useEffect(() => {
 
@@ -36,6 +37,17 @@ function AddBookScreen({navigation}){
 
     }, []);
 
+    async function pickImageUri(){
+
+        const imageUri = await pickImage();
+        setImage(imageUri);
+        console.log(imageUri);
+        console.log(image);
+
+    }
+
+
+
     async function handleAddBook(){
 
         console.log(bookName, userId, location, genre,description);
@@ -43,7 +55,7 @@ function AddBookScreen({navigation}){
         if(userId !== undefined && bookName !== undefined){
             try{
                 const response  = await authApi.post(`${BACKEND_URL}/books/`,
-                    {name:bookName,ownerId:userId,description:description,location:location,genre:genre});
+                    {name:bookName,ownerId:userId,description:description,location:location,genre:genre,image});
 
                 console.log(response.status);
 
@@ -65,7 +77,7 @@ function AddBookScreen({navigation}){
             style={landingStylesheet.background}
         />
 
-        <View style={{flex:2, justifyContent:"center"}}>
+        <View style={{flex:3, justifyContent:"center"}}>
 
 
         <CustomTextInput
@@ -105,7 +117,38 @@ function AddBookScreen({navigation}){
             value={genre}
             onChangeText={setGenre}/>
 
+
+            <TouchableOpacity
+                style={landingStylesheet.imageContainer}
+                onPress={() => pickImageUri()}
+            >
+                {image ? (
+                    <>
+                        <Image
+                            source={require("./../../../assets/edit_pencil.png")}
+                            style={landingStylesheet.iconWithImage}
+                        />
+                        <Image source={{uri:image}} style={landingStylesheet.image} />
+                    </>
+                ) : (
+                    <View style={landingStylesheet.placeholder}>
+                        <Image
+                            source={require("./../../../assets/edit_pencil.png")}
+                            style={landingStylesheet.icon}
+                        />
+                    </View>
+                )}
+            </TouchableOpacity>
+
+
+
         </View>
+
+
+
+
+
+
 
 
         <View style={{flex:1, alignItems:"center", justifyContent:"flex-end"}}>
@@ -134,6 +177,35 @@ const landingStylesheet = StyleSheet.create({
         top: 0,
         height:"100%",
         width:"120%",
+    },imageContainer: {
+        width: 200,
+        height: 200,
+        borderWidth: 2,
+        borderColor: "gray",
+        justifyContent: "center",
+        alignItems: "center",
+        alignSelf:"center",
+        borderRadius: 10,
+        overflow: "hidden",
+    },  placeholder: {
+        justifyContent: "center",
+        alignItems: "center",
+    }, icon: {
+        width: 50,
+        height: 50,
+        resizeMode: "contain",
+    }, image: {
+        width: "100%",
+        height: "100%",
+        resizeMode: "cover",
+    }, iconWithImage: {
+        width: 50,
+        top: 0,
+        right: 0,
+        zIndex: 1,
+        position: "absolute",
+        height: 50,
+        resizeMode: "contain",
     },
 
 
