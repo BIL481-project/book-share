@@ -133,7 +133,7 @@ const returnBook = async (bookId, userId) => {
 
         const notificationDetails = {
             userId: book.ownerId,
-            content: `Your book named "${book.name}" has been RETURNED by the user with the ID: ${borrowerId}`,
+            content: `Your book named "${book.name}" has been RETURNED by the user with the ID: ${userId}`,
         };
 
         await NotificationService.addNotification(notificationDetails, transaction); // Bildirimi database'e ekle
