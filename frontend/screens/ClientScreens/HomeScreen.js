@@ -1,4 +1,4 @@
-import { Modal, PaperProvider, Portal, Searchbar,ToggleButton} from "react-native-paper";
+import {Avatar,  Modal, PaperProvider, Portal, Searchbar, Text, ToggleButton} from "react-native-paper";
 import React, {useEffect} from "react";
 import authApi from "../../axios_instances/authApi";
 import { BACKEND_URL } from '@env';
@@ -7,9 +7,10 @@ import {ScrollView, TouchableOpacity, View} from "react-native";
 import CustomBookDetails from "../../components/CustomBookDetails";
 import CustomBookComponent from "../../components/CustomBookComponent";
 
-function HomeScreen(){
+function HomeScreen({navigation}){
 
     const [bookData, setBookData] = useState([]);
+    const [userData,setUserData] = useState([]);
     const [visible, setVisible] = React.useState(false);
     const showModal = (index) => setVisible(index);
     const hideModal = () => setVisible(false);
@@ -33,6 +34,20 @@ function HomeScreen(){
     }, []);
 
 
+    useEffect(() => {
+
+        if(searchQuery === ''){
+            authApi.get(`${BACKEND_URL}/books/`).then((response)=> {
+                setBookData(response.data);
+                setUserData([]);
+            }).catch((err)=> {
+                console.log(err);
+            })
+        }
+
+
+    }, [searchQuery]);
+
 
 
     async function searchMethod(){
@@ -41,10 +56,24 @@ function HomeScreen(){
         try {
 
             if (toggleValue === "left") { //user request
-                const response = await authApi.get(`${BACKEND_URL}/search`, {option: "book", input: searchQuery});
-                console.log(response, "Response");
-            } else { //book request
 
+                    const response = await authApi.get(`${BACKEND_URL}/search`, {
+                        params: { option: "user", input: searchQuery },
+                    });
+                    setUserData(response.data);
+                    setBookData([]);
+
+                    console.log("Response Data:", response.data); // Sunucudan dönen veri
+
+
+            } else { //book request
+                const response = await authApi.get(`${BACKEND_URL}/search`, {
+                    params: { option: "book", input: searchQuery },
+                });
+                setUserData([]);
+                setBookData(response.data);
+
+                console.log("Response Data:", response.data); // Sunucudan dönen veri
 
             }
 
@@ -89,6 +118,34 @@ function HomeScreen(){
 
 
         ))}
+
+
+            {userData.map((item,index,_)=> (
+
+                <TouchableOpacity onPress={() => navigation.navigate("ViewProfileScreen", { userNames: item?.userName })} key={index} style={{borderRadius:30,borderColor:"white",backgroundColor:"green", width:"90%",paddingVertical:15,margin:"2%"}}>
+
+                    <View style={{flexDirection:"row", padding:10}}>
+                        <Avatar.Image size={50} source={require('./../../common/images/profilPic.png')}/>
+
+                        <View style={{ justifyContent:"space-around"}}>
+
+                            <View style={{flexDirection:"row", justifyContent:"space-between",paddingHorizontal:15}}>
+                                <Text style={{justifyContent:"center",textAlign:"left"}}>{item?.userName}</Text>
+
+
+                            </View>
+
+                            <View style={{flexDirection:"row",justifyContent:"space-between",paddingHorizontal:15}}>
+                                <Text>{item?.email}</Text >
+                            </View>
+
+                        </View>
+                    </View>
+
+                </TouchableOpacity>
+
+
+            ))}
 
 
 

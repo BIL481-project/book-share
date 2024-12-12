@@ -45,7 +45,7 @@ function ClientNavigationScreen({navigation}){
         home:() => HomeScreen({navigation}),
         communication:()=>  CommunicateScreen({navigation}),
         profile: () => ProfileScreen({navigation}),
-        community:CommunityScreen
+        community:() => CommunityScreen({navigation}),
     })
 
     return(<BottomNavigation navigationState={{index,routes}} onIndexChange={setIndex} renderScene={renderScene}/>)
