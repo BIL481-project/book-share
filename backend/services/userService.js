@@ -14,9 +14,9 @@ const createUser = async (userData) => {
     }
 };
 
-const getAllUsers = async () => {
+const getAllUsers = async (filters = {}) => {
     try {
-        const users = await UserRepository.findAllUsers();
+        const users = await UserRepository.findAllUsers(filters);
         return users;
 
     } catch (error) {
