@@ -1,6 +1,6 @@
 import {Button} from "react-native-paper";
 import colors from "../../common/colors";
-import {TouchableOpacity, View, Image} from "react-native";
+import {TouchableOpacity, View, Image, Alert} from "react-native";
 import CustomTextInput from "../../components/CustomTextInput";
 import {StyleSheet} from "react-native";
 import {LinearGradient} from "expo-linear-gradient";
@@ -8,17 +8,30 @@ import React, {useEffect, useState} from "react";
 import { BACKEND_URL } from '@env';
 import authApi from "../../axios_instances/authApi";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {pickImage} from "../../utils/imageUtils";
+import {addImageToFormData, pickImage} from "../../utils/imageUtils";
 
 function AddBookScreen({navigation}){
 
-    const [bookName, setBookName] = useState("");
-    const [description, setDescription] = useState("");
-   // const [imageUri, setImageUri] = useState("");
-    const [location, setLocation] = useState("");
-    const [genre, setGenre] = useState("");
-    const [userId, setUserId] = useState("");
+
+    const [formData] = useState(new FormData());
     const [image, setImage] = useState("");
+
+    const [bookData,setBookData] = useState({
+        name:'',
+        description:'',
+        genre:'',
+        location:''
+    });
+
+
+    useEffect(() => {
+
+
+        console.log(bookData.name, bookData.description, bookData.genre, bookData.location)
+
+    }, [bookData]);
+
+
 
     useEffect(() => {
 
@@ -26,7 +39,6 @@ function AddBookScreen({navigation}){
             try {
                 const res = await authApi.get(`${BACKEND_URL}/profiles/my`);
                 console.log(res.data.user.id, "res");
-                setUserId(res.data.user.id);
             } catch (err){
                 console.log(err)
                 const cvp = AsyncStorage.getItem("token");
@@ -37,35 +49,43 @@ function AddBookScreen({navigation}){
 
     }, []);
 
-    async function pickImageUri(){
-
-        const imageUri = await pickImage();
-        setImage(imageUri);
-        console.log(imageUri);
-        console.log(image);
-
-    }
-
-
-
-    async function handleAddBook(){
-
-        console.log(bookName, userId, location, genre,description);
-
-        if(userId !== undefined && bookName !== undefined){
-            try{
-                const response  = await authApi.post(`${BACKEND_URL}/books/`,
-                    {name:bookName,ownerId:userId,description:description,location:location,genre:genre,image});
-
-                console.log(response.status);
-
-                navigation.navigate('ClientNavigationScreen');
-
-            } catch(err){
-                console.log(err);
+    const handlePickImage = async () => {
+        try {
+            const imageUri = await pickImage(); // Resim seç
+            if (imageUri) {
+                setImage(imageUri);
+                addImageToFormData(formData, imageUri, "image"); // Resmi FormData'ya ekle
+                Alert.alert("Success", "Image added to form data!");
             }
+        } catch (error) {
+            Alert.alert('Error', error.message);
         }
-    }
+    };
+
+
+    const handleAddBookData = () => {
+        // Kitap bilgilerini FormData'ya ekle
+        Object.entries(bookData).forEach(([key, value]) => {
+            formData.append(key, value);
+        });
+    };
+
+
+    const handleAddBook = async () => {
+        try {
+            handleAddBookData(); // Kitap bilgilerini ekle
+            const response = await authApi.post('/books', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            Alert.alert('Success', `Book added successfully! ID: ${response.data.id}`);
+        } catch (error) {
+            Alert.alert('Error', error.message || 'Failed to add book.');
+        } finally {
+            navigation.navigate('Profile');
+        }
+    };
 
 
 
@@ -80,47 +100,48 @@ function AddBookScreen({navigation}){
         <View style={{flex:3, justifyContent:"center"}}>
 
 
-        <CustomTextInput
-            style={landingStylesheet.textInputs}
-            mode="outlined"
-            placeholder="Enter name"
-            dense
-            theme={{roundness: 25}}
-            value={bookName}
-            onChangeText={setBookName}/>
+            <CustomTextInput
+                style={landingStylesheet.textInputs}
+                mode="outlined"
+                placeholder="Enter name"
+                dense
+                theme={{roundness: 25}}
+                value={bookData.name}
+                onChangeText={(text) => setBookData({ ...bookData, name: text || null })}/>
 
-        <CustomTextInput
-            style={landingStylesheet.textInputs}
-            mode="outlined"
-            placeholder="Enter description"
-            dense
-            theme={{roundness: 25}}
-            value={description}
-            onChangeText={setDescription}/>
+            <CustomTextInput
+                style={landingStylesheet.textInputs}
+                mode="outlined"
+                placeholder="Enter description"
+                dense
+                theme={{roundness: 25}}
+                value={bookData.description}
+                onChangeText={(text) => setBookData({ ...bookData, description: text || null })}/>
 
 
-        <CustomTextInput
-            style={landingStylesheet.textInputs}
-            mode="outlined"
-            placeholder="Enter location"
-            dense
-            theme={{roundness: 25}}
-            value={location}
-            onChangeText={setLocation}/>
+            <CustomTextInput
+                style={landingStylesheet.textInputs}
+                mode="outlined"
+                placeholder="Enter location"
+                dense
+                theme={{roundness: 25}}
+                value={bookData.location}
+                onChangeText={(text) => setBookData({ ...bookData, location: text || null })}/>
 
-        <CustomTextInput
-            style={landingStylesheet.textInputs}
-            mode="outlined"
-            placeholder="Enter genre"
-            dense
-            theme={{roundness: 25}}
-            value={genre}
-            onChangeText={setGenre}/>
+            <CustomTextInput
+                style={landingStylesheet.textInputs}
+                mode="outlined"
+                placeholder="Enter genre"
+                dense
+                theme={{roundness: 25}}
+                value={bookData.genre}
+                onChangeText={(text) => setBookData({ ...bookData, genre: text || null })}
+            />
 
 
             <TouchableOpacity
                 style={landingStylesheet.imageContainer}
-                onPress={() => pickImageUri()}
+                onPress={() => handlePickImage()}
             >
                 {image ? (
                     <>
@@ -146,15 +167,10 @@ function AddBookScreen({navigation}){
 
 
 
-
-
-
-
-
         <View style={{flex:1, alignItems:"center", justifyContent:"flex-end"}}>
-         <Button onPress={()=>{handleAddBook()}} labelStyle={{ color:"white"}} style={{borderRadius:15,backgroundColor:colors.alternativePrimary,width:"90%",marginHorizontal:5,marginVertical:20}} mode="contained">
-            Add Book
-        </Button>
+            <Button onPress={()=>{handleAddBook()}} labelStyle={{ color:"white"}} style={{borderRadius:15,backgroundColor:colors.alternativePrimary,width:"90%",marginHorizontal:5,marginVertical:20}} mode="contained">
+                Add Book
+            </Button>
         </View>
 
     </>)

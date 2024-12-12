@@ -6,6 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {LinearGradient} from "expo-linear-gradient";
 import CustomTextInput from "../../components/CustomTextInput";
 import { BACKEND_URL } from '@env';
+import WebsocketManager from "../../websocket/WebsocketManager";
 
 
 function  SignInScreen({navigation}) {
@@ -27,6 +28,15 @@ function  SignInScreen({navigation}) {
             console.log(response.data, "data");
             const {token} = response.data;
             await AsyncStorage.setItem('token', token);
+
+            try{
+                WebsocketManager.connectWebSocket();
+            } catch(err){
+                console.error("Error: "+ err);
+            }
+
+
+
             navigation.navigate('ClientNavigationScreen');
         } catch(err){
             console.log(err)
