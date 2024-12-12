@@ -35,19 +35,22 @@ function HomeScreen(){
 
 
 
-    function searchMethod(){
+    async function searchMethod(){
         console.log("Merhaba", searchQuery);
 
-        if(toggleValue === "left"){ //user request
+        try {
+
+            if (toggleValue === "left") { //user request
+                const response = await authApi.get(`${BACKEND_URL}/search`, {option: "book", input: searchQuery});
+                console.log(response, "Response");
+            } else { //book request
 
 
-        } else { //book request
+            }
 
-
-
+        } catch(err){
+            console.error("Error: "+ err);
         }
-
-
 
     }
 

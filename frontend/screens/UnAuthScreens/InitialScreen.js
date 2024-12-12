@@ -10,16 +10,20 @@ import {getSessionUserId} from "../../utils/getSessionUserId";
 const InitialScreen = ({navigation}) => {
 
     useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const user = await getSessionUserId();
 
-        const user = getSessionUserId();
+                if (user !== null) {
+                    navigation.navigate('ClientNavigationScreen');
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
 
-        if(user !== null){
-            navigation.navigate('ClientNavigationScreen');
-        }
-
-
-
-    }, []);
+        fetchUser();
+    }, []);
 
     const navigateToHome = () => {
         navigation.navigate('SignUp');
