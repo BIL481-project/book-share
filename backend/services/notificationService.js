@@ -1,4 +1,5 @@
 const RepositoryError = require('../errors/RepositoryError');
+const ServiceError = require('../errors/ServiceError');
 const NotificationRepository = require('../repositories/notificationRepository');
 
 const addNotification = async (notificationDetails, transaction = null) => {
@@ -19,6 +20,9 @@ const getUserNotifications = async (userId) => {
         const notifications = await NotificationRepository.findNotificationsByUserId(userId);
         return notifications;
     } catch (error) {
+        if (error instanceof RepositoryError) {
+            throw error;
+        }
         throw new ServiceError(`Error in getUserNotifications: ${error.message}`);
     }
 };
