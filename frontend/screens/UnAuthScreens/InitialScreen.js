@@ -2,6 +2,7 @@ import {Button, Text} from "react-native-paper";
 import {View,Image,StyleSheet} from "react-native";
 import React from "react";
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
+import {strings} from "../../common/strings/language.config";
 
 
 
@@ -25,7 +26,7 @@ const InitialScreen = ({navigation}) => {
             </SafeAreaProvider>
         </View>
         <View style={landingStyleSheet.introMessageStyle}>
-            <Text style={{flex:2, color:"white", fontFamily:"Inter"}} variant="displayMedium">Welcome!</Text>
+            <Text style={{flex:2, color:"white", fontFamily:"Inter"}} variant="displayMedium">{strings.welcome}</Text>
             <Text style={{flex:2, color:"white"}} variant="headlineSmall">If you are book enthusiasts this is a great place to share!</Text>
 
             <Button style={{backgroundColor: "#635A8F", height:45}} labelStyle={{color:"white"}} onPress={navigateToHome} mode="outlined">
