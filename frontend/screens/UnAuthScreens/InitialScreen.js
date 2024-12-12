@@ -1,13 +1,25 @@
 import {Button, Text} from "react-native-paper";
 import {View,Image,StyleSheet} from "react-native";
-import React from "react";
+import React, {useEffect} from "react";
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {strings} from "../../common/strings/language.config";
+import {getSessionUserId} from "../../utils/getSessionUserId";
 
 
 
 const InitialScreen = ({navigation}) => {
 
+    useEffect(() => {
+
+        const user = getSessionUserId();
+
+        if(user !== null){
+            navigation.navigate('ClientNavigationScreen');
+        }
+
+
+
+    }, []);
 
     const navigateToHome = () => {
         navigation.navigate('SignUp');
