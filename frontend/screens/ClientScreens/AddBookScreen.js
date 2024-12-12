@@ -24,12 +24,6 @@ function AddBookScreen({navigation}){
     });
 
 
-    useEffect(() => {
-
-
-        console.log(bookData.name, bookData.description, bookData.genre, bookData.location)
-
-    }, [bookData]);
 
 
 
@@ -38,11 +32,8 @@ function AddBookScreen({navigation}){
         async function getUserData(){
             try {
                 const res = await authApi.get(`${BACKEND_URL}/profiles/my`);
-                console.log(res.data.user.id, "res");
             } catch (err){
-                console.log(err)
                 const cvp = AsyncStorage.getItem("token");
-                console.log(cvp)
             }
         }
         getUserData();

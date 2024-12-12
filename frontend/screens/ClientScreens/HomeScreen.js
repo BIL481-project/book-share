@@ -22,10 +22,8 @@ function HomeScreen(){
 
     useEffect(() => {
 
-        console.log("Use Effect Çalıştı");
 
         authApi.get(`${BACKEND_URL}/books/`).then((response)=> {
-            console.log(response.data[0]);
             setBookData(response.data);
         }).catch((err)=> {
             console.log(err);
@@ -38,10 +36,7 @@ function HomeScreen(){
 
 
     function searchMethod(){
-
         console.log("Merhaba", searchQuery);
-
-
     }
 
 
