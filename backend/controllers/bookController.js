@@ -1,6 +1,7 @@
 const BookService = require('../services/bookService');
 const RepositoryError = require('../errors/RepositoryError');
 const ServiceError = require('../errors/ServiceError');
+const uploadMiddleware = require('../middlewares/uploadMiddleware');
 
 // T�m kitaplar� d�nd�ren endpoint
 const fetchBooks = async (req, res) => { 
@@ -22,11 +23,41 @@ const getBook = async (req, res) => {
     }
 };
 
-const postBook = async (req, res) => {
-    const book = req.body;
-    BookService.createBook(book);
-    res.status(201).json({ message: 'Book added successfuly' });
-};
+const postBook = [
+    uploadMiddleware, // Güncellenmiş middleware'i kullan
+    async (req, res) => {
+        try {
+            // Eğer resim yüklenmemişse null belirle
+            const imageUrl = req.file ? req.file.location : null;
+
+            // `req.body` içindeki form verileri
+            const { name, description, genre, location } = req.body;
+
+            // `req.user` içindeki userId bilgisi (JWT'den çıkarılmıştır)
+            const ownerId = req.user.userId;
+
+            // Kitap bilgileri
+            const book = {
+                name,
+                description,
+                genre,
+                location,
+                ownerId, // Token'den alınan userId
+                isAvailable: 1,
+                borrowerId: null,
+                image: imageUrl, // Varsayılan resim ya da yüklenen resim
+            };
+
+            // Kitap servisi aracılığıyla veri tabanına ekle
+            const createdBook = await BookService.createBook(book);
+
+            res.status(201).json({ message: 'Book added successfully!', id: createdBook.id });
+        } catch (error) {
+            console.error('Error adding book:', error.message);
+            res.status(500).json({ error: 'Failed to add book.' });
+        }
+    },
+];
 
 const deleteBook = async (req, res) => {
     const bookId = req.params.id;
