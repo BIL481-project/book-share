@@ -1,5 +1,6 @@
 const RepositoryError = require('../errors/RepositoryError');
 const NotificationRepository = require('../repositories/notificationRepository');
+const ServiceError = require("../errors/ServiceError");
 
 const addNotification = async (notificationDetails, transaction = null) => {
     try {

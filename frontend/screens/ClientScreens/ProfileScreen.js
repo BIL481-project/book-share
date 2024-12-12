@@ -17,7 +17,6 @@ function ProfileScreen({navigation}) {
 
     useEffect(() => {
 
-        console.log("useEffect çalıştı");
 
 
 
@@ -27,12 +26,9 @@ function ProfileScreen({navigation}) {
 
                 const response = await authApi.get('/profiles/my');
                 await AsyncStorage.setItem('userID', String(response.data.user.id));
-                console.log("Line 30")
-                //console.log(response.data.user.id, "Response Data");
                 setUserName(response.data.user.userName);
                 setEmail(response.data.user.email);
                 // const id = await AsyncStorage.getItem('userID');
-                // console.log("Data kaydedildi" , id)
             } catch (err){
                 console.error(err);
             }

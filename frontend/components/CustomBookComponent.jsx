@@ -10,16 +10,12 @@ function CustomBookComponent({item,index}){
     const openMenu = (index) => setVisibleMenu(index);
     const closeMenu = () => setVisibleMenu(false);
 
-    console.log(item , "index")
 
 
     async function handleBorrowFunction(bookId){
 
-        console.log(BACKEND_URL+'/books/lend/'+bookId);
 
         authApi.post(BACKEND_URL+'/books/lend/'+bookId).then((res)=> {
-            console.log(res);
-            //const data = res;
         }).catch((err)=> {
             console.log(err);
         })
