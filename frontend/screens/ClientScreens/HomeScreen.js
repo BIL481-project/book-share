@@ -1,4 +1,4 @@
-import { Modal, PaperProvider, Portal, Searchbar} from "react-native-paper";
+import { Modal, PaperProvider, Portal, Searchbar,ToggleButton} from "react-native-paper";
 import React, {useEffect} from "react";
 import authApi from "../../axios_instances/authApi";
 import { BACKEND_URL } from '@env';
@@ -14,7 +14,7 @@ function HomeScreen(){
     const showModal = (index) => setVisible(index);
     const hideModal = () => setVisible(false);
 
-
+    const [toggleValue, setToggleValue] = React.useState('left');
 
     const [searchQuery,setSearchQuery] = useState('');
 
@@ -37,19 +37,34 @@ function HomeScreen(){
 
     function searchMethod(){
         console.log("Merhaba", searchQuery);
+
+        if(toggleValue === "left"){ //user request
+
+
+        } else { //book request
+
+
+
+        }
+
+
+
     }
 
 
     return(<>
-
-        <Searchbar style={{margin:"5%"}}
+   <View style={{flexDirection: "row", alignItems: "center", padding: "5%"}}>
+        <Searchbar style={{flex: 4, marginRight: 10}}
                    placeholder="Search anything"
                    value={searchQuery}
                    onChangeText={setSearchQuery}
                    onSubmitEditing={()=> {searchMethod()}} />
 
-
-
+        <ToggleButton.Row style={{borderRadius: 5,flex:1}} onValueChange={value => setToggleValue(value)} value={toggleValue}>
+            <ToggleButton icon="account" value="left" rippleColor="green"  backgroundColor={toggleValue === 'left' ? "green" : "white"}/>
+            <ToggleButton icon="book" value="right" ippleColor="green"  backgroundColor={toggleValue === 'right' ? "green" : "white"}/>
+        </ToggleButton.Row>
+    </View>
       <PaperProvider>
         <ScrollView>
         <View style={{borderRadius:20,alignItems:"center"}}>
