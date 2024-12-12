@@ -7,8 +7,10 @@ const testRoutes = require('./test/example_protected_route');
 const profileRoutes = require('./profileRoutes');
 const bookRoutes = require('./bookRoutes');
 const searchRoutes = require('./searchRoutes');
+const notificationRoutes = require('./notificationRoutes');
 
 // Alt route'ları bağlama
+router.use('/notifications', notificationRoutes);
 router.use('/auth', authRoutes);  // /auth/login, /auth/signup
 router.use('/test', testRoutes);
 

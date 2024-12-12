@@ -1,3 +1,4 @@
+const NotificationService = require('./notificationService');
 const ServiceError = require('../errors/ServiceError');
 const RepositoryError = require('../errors/RepositoryError');
 const BookRepository = require('../repositories/bookRepository');
@@ -79,11 +80,20 @@ const lendBook = async (bookId, borrowerId) => {
             throw new ServiceError('Book update failed. No rows were updated.');
         }
 
+        const notificationDetails = {
+            userId: book.ownerId,
+            content: `Your book named "${book.name}" has been BORROWED by the user with the ID: ${borrowerId}`,
+        };
+
+        await NotificationService.addNotification(notificationDetails, transaction); // Bildirimi database'e ekle
+
         await transaction.commit();
 
         eventBus.emit('new-notification', { userId: book.ownerId, notificationDetails: {
             message: "Your book named " + book.name + " has been BORROWED by the user with the ID: " + borrowerId
         } });
+
+
 
         return { success: true, message: 'Book successfully lent.' };
     } catch (error) {
@@ -120,6 +130,13 @@ const returnBook = async (bookId, userId) => {
         if (rowsUpdated === 0) {
             throw new ServiceError('Book update failed. No rows were updated.');
         }
+
+        const notificationDetails = {
+            userId: book.ownerId,
+            content: `Your book named "${book.name}" has been RETURNED by the user with the ID: ${borrowerId}`,
+        };
+
+        await NotificationService.addNotification(notificationDetails, transaction); // Bildirimi database'e ekle
 
         await transaction.commit(); // Transaction başarıyla tamamlandı
 
