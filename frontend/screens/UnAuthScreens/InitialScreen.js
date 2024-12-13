@@ -1,6 +1,6 @@
 import {Button, Text} from "react-native-paper";
 import {View,Image,StyleSheet} from "react-native";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {strings} from "../../common/strings/language.config";
 import {getSessionUserId} from "../../utils/getSessionUserId";
@@ -9,25 +9,28 @@ import {getSessionUserId} from "../../utils/getSessionUserId";
 
 const InitialScreen = ({navigation}) => {
 
+    const [user, setUser] = useState(null); // Global state olarak user
+
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const user = await getSessionUserId();
-
-                if (user !== null) {
-                    navigation.navigate('ClientNavigationScreen');
-                }
+                const sessionUser = await getSessionUserId();
+                setUser(sessionUser); // User bilgisini state'e ata
             } catch (error) {
                 console.error(error);
             }
         };
 
         fetchUser();
-    }, []);
+    }, []);
 
     const navigateToHome = () => {
-        navigation.navigate('SignUp');
-    }
+        if (user !== null) { // Eğer user null değilse ClientNavigationScreen'e git
+            navigation.navigate('ClientNavigationScreen');
+        } else { // Eğer user null ise SignUp ekranına git
+            navigation.navigate('SignUp');
+        }
+    };
 
 
     return (<>

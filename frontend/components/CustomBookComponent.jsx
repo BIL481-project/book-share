@@ -1,67 +1,152 @@
-import {Image, TouchableOpacity, View} from "react-native";
-import {Button, Menu, Text} from "react-native-paper";
-import React from "react";
+import { Image, View, StyleSheet } from "react-native";
+import { Button, Text } from "react-native-paper";
+import React, { useEffect, useState } from "react";
 import authApi from "../axios_instances/authApi";
-import { BACKEND_URL } from '@env';
+import { BACKEND_URL } from "@env";
 
-function CustomBookComponent({item,index}){
+function CustomBookComponent({ item, userId }) {
+    const [bookDetails, setBookDetails] = useState(item); // Kitap detaylarını kontrol için state
 
-    const [visibleMenu, setVisibleMenu] = React.useState(false);
-    const openMenu = (index) => setVisibleMenu(index);
-    const closeMenu = () => setVisibleMenu(false);
+    useEffect(() => {
+        async function compareUserIdAndBorrower() {
+            console.log('user id\'si: ' + userId);
+            console.log('borrower id\'si: ' + bookDetails.borrowerId);
+        }
 
+        compareUserIdAndBorrower();
+        
+    }, [])
 
-
-    async function handleBorrowFunction(bookId){
-
-
-        authApi.post(BACKEND_URL+'/books/lend/'+bookId).then((res)=> {
-        }).catch((err)=> {
-            console.log(err);
-        })
+    async function handleBorrowFunction(bookId) {
+        try {
+            await authApi.post(`${BACKEND_URL}/books/lend/${bookId}`);
+            alert("Book borrowed successfully!");
+            // Kitap detaylarını güncelle
+            setBookDetails((prevDetails) => ({
+                ...prevDetails,
+                isAvailable: false,
+                borrowerId: userId,
+            }));
+        } catch (err) {
+            console.error(err);
+        }
     }
 
-    async function handleReturnFunction(bookId){
-        console.log(BACKEND_URL+'/books/lend/'+ bookId);
-
-
-        authApi.post(BACKEND_URL+'/books/return/'+bookId).then((res)=> {
-            console.log(res);
-            // const data = res;
-        }).catch((err)=> {
-            console.log(err);
-        })
+    async function handleReturnFunction(bookId) {
+        try {
+            await authApi.post(`${BACKEND_URL}/books/return/${bookId}`);
+            alert("Book returned successfully!");
+            // Kitap detaylarını güncelle
+            setBookDetails((prevDetails) => ({
+                ...prevDetails,
+                isAvailable: true,
+                borrowerId: null,
+            }));
+        } catch (err) {
+            console.error(err);
+        }
     }
 
-    return(<>
+    const isBorrowedByTheCurrentUser = userId && bookDetails.borrowerId === userId; // Kullanıcı kitabı ödünç aldı mı?
+    const isAvailable = bookDetails.isAvailable; // Kitap ödünç alınabilir mi?
+    const belongsToTheCurrentUser = userId && bookDetails.ownerId === userId; // Kullanıcının kendi kitabı mı?
 
-        <View style={{flexDirection:"row", alignItems:"center"}}>
-            <Text style={{flex:1,fontSize:24,textAlign:"center",color:"white"}}>{item.id}</Text>
-            <Text style={{flex:3,fontSize:22,textAlign:"center",color:"white"}}>{item.name}</Text>
-            <TouchableOpacity onPress={()=>console.log("Merhaba Dünya")} style={{flex:1, alignItems:"center"}}>
-                <Menu
-                    visible={visibleMenu === index}
-                    onDismiss={closeMenu}
-                    anchor={<Button onPress={() => {openMenu(index); console.log(index)}} style={{fontSize:20,color:"white"}}>Menü</Button>}>
-                    {item.borrowerId === null && item.isAvailable === 1 ? (<Menu.Item onPress={() => {handleBorrowFunction(item.id)}} title="Borrow" />): null}
-                    {item.borrowerId === 37 ? (<Menu.Item onPress={() => {handleReturnFunction(item.id)}} title="Return" />):null}
-                    {/*<Menu.Item onPress={() => showModal(index)} title="Details" />*/}
-                </Menu>
-            </TouchableOpacity>
+    return (
+        <View style={styles.container}>
+            {/* Kitap Detayları */}
+            <View style={styles.bookDetails}>
+                <Text style={styles.bookName}>{bookDetails.name}</Text>
+                <Text style={styles.bookGenre}>Genre: {bookDetails.genre}</Text>
+                <Text style={styles.bookLocation}>Location: {bookDetails.location}</Text>
+                <Text style={styles.bookDescription}>{bookDetails.description}</Text>
+
+                {!isAvailable && !isBorrowedByTheCurrentUser && !belongsToTheCurrentUser && (
+                    <Text style={styles.unavailableText}>Currently borrowed by someone else</Text>
+                )}
+                {!isAvailable && belongsToTheCurrentUser && (
+                    <Text style={styles.borrowedByText}>
+                        Borrowed by User ID: {bookDetails.borrowerId}
+                    </Text>
+                )}
+            </View>
+
+            {/* Kitabın Görseli */}
+            <Image source={{ uri: bookDetails.image }} style={styles.bookImage} />
+
+            {/* Borrow ve Return Butonları */}
+            {!belongsToTheCurrentUser && isAvailable && !isBorrowedByTheCurrentUser && (
+                <Button
+                    onPress={() => handleBorrowFunction(bookDetails.id)}
+                    mode="contained"
+                    style={styles.actionButton}
+                >
+                    Borrow
+                </Button>
+            )}
+
+            {isBorrowedByTheCurrentUser && (
+                <Button
+                    onPress={() => handleReturnFunction(bookDetails.id)}
+                    mode="contained"
+                    style={styles.actionButton}
+                >
+                    Return
+                </Button>
+            )}
         </View>
-
-        <View style={{padding:5}}>
-            <Text style={{fontSize:20,textAlign:"center",color:"white"}}>{item.genre}</Text>
-            <Text style={{fontSize:20,textAlign:"center",color:"white"}}>{item.location}</Text>
-        </View>
-
-        <View style={{height:200,justifyContent:"center",alignItems:"center"}}>
-            <Image source={{uri:`${item.image}`}} style={{width:150,height:200,margin:20,resizeMode:"cover"}}/>
-        </View>
-
-    </>)
-
+    );
 }
 
+const styles = StyleSheet.create({
+    container: {
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: "#ddd",
+        padding: 10,
+        marginVertical: 10,
+        alignItems: "center",
+        backgroundColor: "#f9f9f9",
+    },
+    bookDetails: {
+        marginBottom: 10,
+        alignItems: "center",
+    },
+    bookName: {
+        fontSize: 18,
+        fontWeight: "bold",
+    },
+    bookGenre: {
+        fontSize: 16,
+        color: "#555",
+    },
+    bookLocation: {
+        fontSize: 14,
+        color: "#777",
+    },
+    bookDescription: {
+        fontSize: 14,
+        color: "#444",
+    },
+    unavailableText: {
+        fontSize: 14,
+        color: "red",
+        marginTop: 5,
+    },
+    borrowedByText: {
+        fontSize: 14,
+        color: "orange",
+        marginTop: 5,
+    },
+    bookImage: {
+        width: 120,
+        height: 160,
+        resizeMode: "cover",
+        marginTop: 10,
+    },
+    actionButton: {
+        marginTop: 10,
+        width: "80%",
+    },
+});
 
 export default CustomBookComponent;

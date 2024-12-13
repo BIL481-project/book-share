@@ -6,13 +6,14 @@ import { BACKEND_URL } from '@env';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomBookComponent from "../../components/CustomBookComponent";
 import CustomBookDetails from "../../components/CustomBookDetails";
+import { getSessionUserId } from "../../utils/getSessionUserId";
 
 
 
 function MyLibraryScreen(){
 
     const [bookData, setBookData] = useState([]);
-    const [userID, setUserID] = useState(-1);
+    const [userId, setUserId] = useState(-1);
     const [visible, setVisible] = React.useState(false);
     const showModal = (index) => setVisible(index);
     const hideModal = () => setVisible(false);
@@ -21,13 +22,12 @@ function MyLibraryScreen(){
 
         async function loadBooks(){
 
-            const id = await AsyncStorage.getItem('userID');
+            const sessionUserId = await getSessionUserId();
+            setUserId(sessionUserId); // Oturum açan kullanıcının ID'sini alıyoruz
 
-            setUserID(parseInt(id));
+            console.log('aaaaaaaa: ' + userId);
 
-            console.log(id);
-
-            authApi.get(`${BACKEND_URL}/books/`).then((response)=> {
+            await authApi.get(`${BACKEND_URL}/books/`).then((response)=> {
                 console.log(response.data[0]);
                 setBookData(response.data);
 
@@ -54,16 +54,20 @@ function MyLibraryScreen(){
 
                     {bookData.map((item,index,_)=> {
 
-                        if(item.borrowerId===userID || item.ownerId===userID)
+                        if(item.borrowerId===userId || item.ownerId===userId)
                             return (
 
                         <TouchableOpacity onPress={() => showModal(index)} key={index} style={{borderRadius:30,borderColor:"white",backgroundColor:"red", width:"90%",paddingVertical:15,margin:"2%"}}>
 
-                            <CustomBookComponent item={item} index={index}/>
+                            <CustomBookComponent item={item} index={index} userId={userId}/>
 
                             <Portal>
-                                <Modal  visible={visible === index} onDismiss={hideModal} contentContainerStyle={landingStylesheet.containerStyle}>
-                                    <CustomBookDetails item={item}/>
+                                <Modal
+                                    visible={visible === index}
+                                    onDismiss={hideModal}
+                                    contentContainerStyle={landingStylesheet.containerStyle}
+                                >
+                                    <CustomBookDetails item={item} />
                                 </Modal>
                             </Portal>
 

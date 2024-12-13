@@ -75,7 +75,7 @@ function ViewProfileScreen({navigation,route}) {
                 </Button>
 
                 <Button onPress={()=> {navigation.navigate("UserLibrary",{userNames:userName})}} labelStyle={{ color:"white"}} style={{borderRadius:15,backgroundColor:colors.primary,width:"45%", flex:1, margin:5}} mode="contained">
-                    My Library
+                    User's Library
                 </Button>
 
             </View>
