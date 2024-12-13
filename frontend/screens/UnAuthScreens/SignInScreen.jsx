@@ -7,7 +7,6 @@ import {LinearGradient} from "expo-linear-gradient";
 import CustomTextInput from "../../components/CustomTextInput";
 import { BACKEND_URL } from '@env';
 import WebsocketManager from "../../websocket/WebsocketManager";
-import {strings} from "../../common/strings/language.config";
 
 
 function  SignInScreen({navigation}) {
@@ -83,7 +82,7 @@ function  SignInScreen({navigation}) {
                     onChangeText={setPassword}/>
 
 
-                <Text onPress={()=> navigation.navigate("SignUp")} style={landingStylesheet.signUpText} >{strings.signInIfYouHaveAccount}</Text>
+                <Text onPress={()=> navigation.navigate("SignUp")} style={landingStylesheet.signUpText}>Sign Up To Open New Account</Text>
 
             </View>
 
