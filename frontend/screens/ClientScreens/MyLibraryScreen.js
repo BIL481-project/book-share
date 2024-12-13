@@ -1,6 +1,6 @@
-import {StyleSheet, View, ScrollView, TouchableOpacity} from "react-native";
+import {StyleSheet, View, ScrollView, TouchableOpacity, Alert} from "react-native";
 import React, {useEffect, useState} from "react";
-import {Portal, Modal, PaperProvider} from "react-native-paper";
+import {Portal, Modal, PaperProvider, Text} from "react-native-paper";
 import authApi from "../../axios_instances/authApi";
 import { BACKEND_URL } from '@env';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -13,6 +13,7 @@ function MyLibraryScreen(){
 
     const [bookData, setBookData] = useState([]);
     const [userID, setUserID] = useState(-1);
+    const [dataState,setDataState] = useState(false);
     const [visible, setVisible] = React.useState(false);
     const showModal = (index) => setVisible(index);
     const hideModal = () => setVisible(false);
@@ -30,12 +31,11 @@ function MyLibraryScreen(){
             authApi.get(`${BACKEND_URL}/books/`).then((response)=> {
                 console.log(response.data[0]);
                 setBookData(response.data);
-
-
-
+                setDataState(true);
 
             }).catch((err)=> {
-                console.log(err);
+                Alert.alert("Error while fetching books");
+                setDataState(true);
             })
 
         }
@@ -71,6 +71,9 @@ function MyLibraryScreen(){
 
                     )}
                     )}
+
+                    {bookData.length === 0 && dataState ? (<Text style={{textAlign:"center",top:50}}>İlgili kayıt bulunamadı</Text>):null}
+
                 </View>
             </ScrollView>
         </PaperProvider>

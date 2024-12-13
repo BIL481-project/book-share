@@ -9,6 +9,7 @@ import { BACKEND_URL } from '@env';
 import authApi from "../../axios_instances/authApi";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {addImageToFormData, pickImage} from "../../utils/imageUtils";
+import GoBackButton from "../../components/GoBackButton";
 
 function AddBookScreen({navigation}){
 
@@ -29,6 +30,7 @@ function AddBookScreen({navigation}){
 
     useEffect(() => {
 
+
         async function getUserData(){
             try {
                 const res = await authApi.get(`${BACKEND_URL}/profiles/my`);
@@ -37,6 +39,8 @@ function AddBookScreen({navigation}){
             }
         }
         getUserData();
+
+
 
     }, []);
 
@@ -64,6 +68,7 @@ function AddBookScreen({navigation}){
 
     const handleAddBook = async () => {
         try {
+
             handleAddBookData(); // Kitap bilgilerini ekle
             const response = await authApi.post('/books', formData, {
                 headers: {
@@ -71,10 +76,11 @@ function AddBookScreen({navigation}){
                 },
             });
             Alert.alert('Success', `Book added successfully! ID: ${response.data.id}`);
+
         } catch (error) {
             Alert.alert('Error', error.message || 'Failed to add book.');
         } finally {
-            navigation.navigate('Profile');
+            navigation.navigate('ClientNavigationScreen');
         }
     };
 
@@ -82,13 +88,15 @@ function AddBookScreen({navigation}){
 
 
     return(<>
+
         <LinearGradient
             // Background Linear Gradient
             colors={['rgba(59,33,183,0.85)', '#8B64DA','#6ce8a0','#e0d5ed']}
             style={landingStylesheet.background}
         />
+        <GoBackButton navigation={navigation} />
 
-        <View style={{flex:3, justifyContent:"center"}}>
+        <View style={{flex:7, justifyContent:"center"}}>
 
 
             <CustomTextInput
@@ -159,10 +167,11 @@ function AddBookScreen({navigation}){
 
 
         <View style={{flex:1, alignItems:"center", justifyContent:"flex-end"}}>
-            <Button onPress={()=>{handleAddBook()}} labelStyle={{ color:"white"}} style={{borderRadius:15,backgroundColor:colors.alternativePrimary,width:"90%",marginHorizontal:5,marginVertical:20}} mode="contained">
+            <Button onPress={()=>{console.log(bookData.name);if(bookData.name !== '')handleAddBook(); else Alert.alert("Name'i lütfen doldurun")}} labelStyle={{ color:"white"}} style={{borderRadius:15,backgroundColor:colors.alternativePrimary,width:"90%",marginHorizontal:5,marginVertical:20}} mode="contained">
                 Add Book
             </Button>
         </View>
+
 
     </>)
 

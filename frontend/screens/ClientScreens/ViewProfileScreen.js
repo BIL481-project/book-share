@@ -66,7 +66,7 @@ function ViewProfileScreen({navigation,route}) {
             </Text>
 
             <Text style={[landingStyleSheet.textIdStyle,{marginVertical:25}]}>
-                Nereye dönersen dön popon arkandadır
+                Kitaplar zekanın çocuklarıdır.
             </Text>
 
             <View style={{flexDirection:"row", margin:10}}>
@@ -74,8 +74,8 @@ function ViewProfileScreen({navigation,route}) {
                     Follow
                 </Button>
 
-                <Button onPress={()=> {navigation.navigate("UserLibrary",{userNames:userName})}} labelStyle={{ color:"white"}} style={{borderRadius:15,backgroundColor:colors.primary,width:"45%", flex:1, margin:5}} mode="contained">
-                    My Library
+                <Button onPress={()=> {navigation.navigate("UserLibrary",{userNames:route.params.userNames})}} labelStyle={{ color:"white"}} style={{borderRadius:15,backgroundColor:colors.primary,width:"45%", flex:1, margin:5}} mode="contained">
+                    View Library
                 </Button>
 
             </View>

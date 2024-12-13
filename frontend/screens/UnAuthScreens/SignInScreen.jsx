@@ -1,5 +1,5 @@
 import {Text,Button} from "react-native-paper";
-import {StyleSheet, View} from "react-native";
+import {Alert, StyleSheet, View} from "react-native";
 import axios from "axios";
 import {useState} from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -7,6 +7,7 @@ import {LinearGradient} from "expo-linear-gradient";
 import CustomTextInput from "../../components/CustomTextInput";
 import { BACKEND_URL } from '@env';
 import WebsocketManager from "../../websocket/WebsocketManager";
+import {strings} from "../../common/strings/language.config";
 
 
 function  SignInScreen({navigation}) {
@@ -29,16 +30,17 @@ function  SignInScreen({navigation}) {
             const {token} = response.data;
             await AsyncStorage.setItem('token', token);
 
+
             try{
                 WebsocketManager.connectWebSocket();
             } catch(err){
+                Alert.alert("Bağlantı hatası");
                 console.error("Error: "+ err);
             }
 
-
-
             navigation.navigate('ClientNavigationScreen');
         } catch(err){
+            Alert.alert("Please control your username and password")
             console.log(err)
         }
 
@@ -81,6 +83,8 @@ function  SignInScreen({navigation}) {
                     onChangeText={setPassword}/>
 
 
+                <Text onPress={()=> navigation.navigate("SignUp")} style={landingStylesheet.signUpText} >{strings.signInIfYouHaveAccount}</Text>
+
             </View>
 
             <View style={{flex:2}}>
@@ -110,6 +114,11 @@ const  landingStylesheet = StyleSheet.create({
         top: 0,
         height:"100%",
         width:"120%",
+    },
+    signUpText:{
+        color:"blue",
+        padding:15,
+        textDecorationLine:"underline"
     },
 });
 

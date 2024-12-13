@@ -10,8 +10,9 @@ const translations = {
 };
 
  const getStrings = () => {
-    const deviceLanguage = getLocales()[0].languageCode; // "tr" veya "en"
-    return deviceLanguage === 'tr' ? translations['tr']: translations['en'];
+     return translations['en'];
+    //const deviceLanguage = getLocales()[0].languageCode; // "tr" veya "en"
+    //return deviceLanguage === 'tr' ? translations['tr']: translations['en'];
 };
 
 

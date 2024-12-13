@@ -28,7 +28,7 @@ function ProfileScreen({navigation}) {
                 await AsyncStorage.setItem('userID', String(response.data.user.id));
                 setUserName(response.data.user.userName);
                 setEmail(response.data.user.email);
-                // const id = await AsyncStorage.getItem('userID');
+
             } catch (err){
                 console.error(err);
             }
@@ -67,15 +67,12 @@ function ProfileScreen({navigation}) {
         </Text>
 
          <Text style={[landingStyleSheet.textIdStyle,{marginVertical:25}]}>
-             Nereye dönersen dön popon arkandadır
+             Gidene kal denmez...
          </Text>
 
          <View style={{flexDirection:"row", margin:10}}>
-             <Button style={{height:40, borderRadius:15, width:"45%", flex:1, margin:5}} onPress={() => navigation.navigate("SignIn")} mode="contained">
-                 Follow
-             </Button>
 
-             <Button onPress={()=> {navigation.navigate("MyLibrary")}} labelStyle={{ color:"white"}} style={{borderRadius:15,backgroundColor:colors.primary,width:"45%", flex:1, margin:5}} mode="contained">
+             <Button onPress={()=> {navigation.navigate("MyLibrary")}} labelStyle={{ color:"white"}} style={{borderRadius:15,backgroundColor:colors.primary,width:"55%",  margin:5}} mode="contained">
                  My Library
              </Button>
 

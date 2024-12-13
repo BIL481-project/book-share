@@ -1,6 +1,6 @@
 import {StyleSheet, View, ScrollView, TouchableOpacity} from "react-native";
 import React, {useEffect, useState} from "react";
-import {Portal, Modal, PaperProvider} from "react-native-paper";
+import {Portal, Modal, PaperProvider, Text} from "react-native-paper";
 import authApi from "../../axios_instances/authApi";
 import CustomBookComponent from "../../components/CustomBookComponent";
 import CustomBookDetails from "../../components/CustomBookDetails";
@@ -11,6 +11,7 @@ function UserLibrary({navigation,route}){
 
     const [borrowedBookData, setBorrowedBookData] = useState([]);
     const [ownedBookData, setOwnedBookData] = useState([]);
+    const [dataState,setDataState] = useState(false);
     const [visible, setVisible] = React.useState(false);
     const showModal = (index) => setVisible(index);
     const hideModal = () => setVisible(false);
@@ -27,11 +28,9 @@ function UserLibrary({navigation,route}){
             try {
 
                 const response = await authApi.get('/profiles/'+userNames);
-                console.log(response.data);
                 setBorrowedBookData(response.data.borrowedBooks)
-                console.log(response.data.borrowedBooks);
                 setOwnedBookData(response.data.ownedBooks)
-                console.log(borrowedBookData.length)
+                setDataState(true);
 
             } catch (err){
                 console.error(err);
@@ -68,6 +67,7 @@ function UserLibrary({navigation,route}){
 
                             )}
                     )}
+                    {ownedBookData.length === 0 && dataState && borrowedBookData.length === 0  ? (<Text style={{textAlign:"center",top:50}}>İlgili kayıt bulunamadı</Text>):null}
                 </View>
             </ScrollView>
         </PaperProvider>

@@ -65,10 +65,10 @@ export default function App() {
         <Stack.Screen name="ViewProfileScreen" component={ViewProfileScreen} options={{ title: 'ViewProfileScreen' }} />
         <Stack.Screen name="SignUp" component={SignUpScreen} options={{ title: 'SignUpScreen' }} />
         <Stack.Screen name="Initial" component={InitialScreen} options={{ title: 'InitialScreen' }} />
-        <Stack.Screen name="MyLibrary" component={MyLibraryScreen} options={{ title: 'MyLibrary' }} />
-        <Stack.Screen name="UserLibrary" component={UserLibrary} options={{ title: 'UserLibrary' }} />
-        <Stack.Screen name="AddBookScreen" component={AddBookScreen} options={{ title: 'AddBookScreen' }} />
-        <Stack.Screen name="ClientNavigationScreen" component={ClientNavigationScreen} options={{ title: 'ClientNavigationScreens' }} />
+        <Stack.Screen name="MyLibrary" component={MyLibraryScreen} options={{ title: 'My Library' }} />
+        <Stack.Screen name="UserLibrary" component={UserLibrary} options={{ title: 'User Library' }} />
+        <Stack.Screen name="AddBookScreen" component={AddBookScreen} options={{ title: 'AddBookScreen' ,headerShown: false}} />
+        <Stack.Screen name="ClientNavigationScreen" component={ClientNavigationScreen} options={{ title: 'ClientNavigationScreens' ,headerShown: false}} />
         <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'KitapPaylaş' }} />
         <Stack.Screen name="Login" component={LoginScreen} options={{ title: 'Giriş Yap' }} />
         <Stack.Screen name="Books" component={BooksScreen} options={{ title: 'Kitap Listesi' }} />

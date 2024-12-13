@@ -7,6 +7,7 @@ import authApi from "../../axios_instances/authApi";
 function CommunicateScreen(){
 
     const [notificationData, setNotificationData] = useState([]);
+    const [dataState,setDataState] = useState(false);
 
     useEffect(()=> {
 
@@ -18,6 +19,7 @@ function CommunicateScreen(){
             const response = await authApi.get(`/notifications/get`);
             console.log(response.data.notifications, "notification-get-result");
             setNotificationData(response.data.notifications);
+            setDataState(true);
         } catch(err){
             Alert.alert("Notificationlar çekilemedi");
         }
@@ -35,7 +37,7 @@ function CommunicateScreen(){
 
     return(<>
 
-        <ScrollView>
+        <ScrollView style={{marginTop:"10%"}}>
 
             {notificationData.map((item,index,_) => {
 
@@ -62,6 +64,8 @@ function CommunicateScreen(){
                     </View>
                 </View>
             )})}
+
+            {notificationData.length === 0 && dataState? (<Text style={{textAlign:"center",top:50}}>İlgili kayıt bulunamadı</Text>):null}
 
 
         </ScrollView>

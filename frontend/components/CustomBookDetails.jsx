@@ -30,8 +30,8 @@ function CustomBookDetails({item}){
                 </View>
 
                 <View style={{padding:5}}>
-                    <Text style={{fontSize:20,textAlign:"center",color:"white"}}>Owner:Çok yakında</Text>
-                    <Text style={{fontSize:20,textAlign:"center",color:"white"}}>{item?.isAvailable ? "Available": "Borrowed" }</Text>
+
+                    <Text style={{fontSize:20,textAlign:"center",color:"white"}}>{item?.isAvailable ? "Available": "Not available" }</Text>
                     <Text style={{fontSize:20,textAlign:"center",color:"white"}}>{item?.genre}</Text>
                     <Text style={{fontSize:20,textAlign:"center",color:"white"}}>{item?.location}</Text>
                     <Text style={{fontSize:14,color:"white",padding:5, textAlign:"center"}}>{item?.description}</Text>

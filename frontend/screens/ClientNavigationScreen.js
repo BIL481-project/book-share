@@ -1,39 +1,18 @@
 import {BottomNavigation} from "react-native-paper";
-import { useState} from "react";
+import {useState} from "react";
 import ProfileScreen from "./ClientScreens/ProfileScreen";
 import HomeScreen from "./ClientScreens/HomeScreen";
 import CommunicateScreen from "./ClientScreens/CommunicateScreen";
 import CommunityScreen from "./ClientScreens/CommunityScreen";
-//import authApi from "../axios_instances/authApi";
-//import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
 function ClientNavigationScreen({navigation}){
 
-    // useEffect(() =
-    // useEffect(() =
-    //
-    //     async function getDat
-    //
-    //         {
-    //             const response = await authApi.get('/profiles/my');
-    //             console.log(response.data);
-    //             await AsyncStorage.setItem("userData",response.data)
-    //             console.log(nahsfıans)
-    //         } catch(err)
-    //             console.lsadog(er;
-    //         }
-    //     }
-    //
-    //     etData();
-    // }, [
 
 
 
-
-
-    const [index,setIndex] = useState(0);
+    const [index,setIndex] = useState(2);
     const [routes] = useState([
         {key:"home", title:"Home", focusedIcon:'home', unfocusedIcon:'home-outline'},
         {key:"communication", title:"Communication", focusedIcon:'message-text', unfocusedIcon:'message-text-outline'},
@@ -46,9 +25,10 @@ function ClientNavigationScreen({navigation}){
         communication:()=>  CommunicateScreen({navigation}),
         profile: () => ProfileScreen({navigation}),
         community:() => CommunityScreen({navigation}),
+
     })
 
-    return(<BottomNavigation navigationState={{index,routes}} onIndexChange={setIndex} renderScene={renderScene}/>)
+    return(<BottomNavigation navigationState={{index,routes}} onIndexChange={setIndex} renderScene={renderScene} lazy lazyPlaceholder={() => null}/>)
 
 
 

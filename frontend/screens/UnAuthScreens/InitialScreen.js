@@ -23,9 +23,9 @@ const InitialScreen = ({navigation}) => {
         };
 
         fetchUser();
-    }, []);
+    },[]);
 
-    const navigateToHome = () => {
+    const navigateToSign = () => {
         navigation.navigate('SignUp');
     }
 
@@ -42,10 +42,10 @@ const InitialScreen = ({navigation}) => {
             </SafeAreaProvider>
         </View>
         <View style={landingStyleSheet.introMessageStyle}>
-            <Text style={{flex:2, color:"white", fontFamily:"Inter"}} variant="displayMedium">{strings.welcome}</Text>
-            <Text style={{flex:2, color:"white"}} variant="headlineSmall">If you are book enthusiasts this is a great place to share!</Text>
+            <Text style={landingStyleSheet.introTextStyle} variant="displayMedium">{strings.welcome}</Text>
+            <Text style={landingStyleSheet.introTextStyle} variant="headlineSmall">{strings.greeting}</Text>
 
-            <Button style={{backgroundColor: "#635A8F", height:45}} labelStyle={{color:"white"}} onPress={navigateToHome} mode="outlined">
+            <Button style={landingStyleSheet.introButtonStyle} labelStyle={{color:"white"}} onPress={navigateToSign} mode="outlined">
                 Get Started
             </Button>
         </View>
@@ -60,6 +60,8 @@ const landingStyleSheet = StyleSheet.create({
     introImageStyle: {
 
     },
+    introButtonStyle:{backgroundColor: "#635A8F", height:45},
+    introTextStyle:{flex:2, color:"white"},
     introMessageStyle:{
         display:"flex",
         top:"70%",

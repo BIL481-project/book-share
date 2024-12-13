@@ -7,13 +7,16 @@ import {ScrollView, TouchableOpacity, View} from "react-native";
 import CustomBookDetails from "../../components/CustomBookDetails";
 import CustomBookComponent from "../../components/CustomBookComponent";
 
+
 function HomeScreen({navigation}){
 
     const [bookData, setBookData] = useState([]);
+    const [userID,setUserID] = useState("");
     const [userData,setUserData] = useState([]);
     const [visible, setVisible] = React.useState(false);
     const showModal = (index) => setVisible(index);
     const hideModal = () => setVisible(false);
+    const [dataState,setDataState] = useState(false);
 
     const [toggleValue, setToggleValue] = React.useState('left');
 
@@ -23,12 +26,29 @@ function HomeScreen({navigation}){
 
     useEffect(() => {
 
+        async function getData(){
+            authApi.get(`${BACKEND_URL}/books/`).then((response)=> {
+                setBookData(response.data);
+                setDataState(true);
+            }).catch((err)=> {
+                console.log(err);
+            })
 
-        authApi.get(`${BACKEND_URL}/books/`).then((response)=> {
-            setBookData(response.data);
-        }).catch((err)=> {
-            console.log(err);
-        })
+            try {
+
+                const response = await authApi.get('/profiles/my');
+                setUserID(response.data.user.id);
+
+                // const id = await AsyncStorage.getItem('userID');
+            } catch (err){
+                console.error(err);
+            }
+        }
+
+        getData();
+
+
+
 
 
     }, []);
@@ -85,7 +105,7 @@ function HomeScreen({navigation}){
 
 
     return(<>
-   <View style={{flexDirection: "row", alignItems: "center", padding: "5%"}}>
+   <View style={{flexDirection: "row", alignItems: "center", padding: "5%", marginTop:"10%"}}>
         <Searchbar style={{flex: 4, marginRight: 10}}
                    placeholder="Search anything"
                    value={searchQuery}
@@ -94,7 +114,7 @@ function HomeScreen({navigation}){
 
         <ToggleButton.Row style={{borderRadius: 5,flex:1}} onValueChange={value => setToggleValue(value)} value={toggleValue}>
             <ToggleButton icon="account" value="left" rippleColor="green"  backgroundColor={toggleValue === 'left' ? "green" : "white"}/>
-            <ToggleButton icon="book" value="right" ippleColor="green"  backgroundColor={toggleValue === 'right' ? "green" : "white"}/>
+            <ToggleButton icon="book" value="right" rippleColor="green"  backgroundColor={toggleValue === 'right' ? "green" : "white"}/>
         </ToggleButton.Row>
     </View>
       <PaperProvider>
@@ -103,9 +123,9 @@ function HomeScreen({navigation}){
 
             {bookData.map((item,index,_)=> (
 
-                <TouchableOpacity onPress={() => showModal(index)} key={index} style={{borderRadius:30,borderColor:"white",backgroundColor:"red", width:"90%",paddingVertical:15,margin:"2%"}}>
+                <TouchableOpacity onPress={() => showModal(index)} key={item.id} style={{borderRadius:30,borderColor:"white",backgroundColor:"red", width:"90%",paddingVertical:15,margin:"2%"}}>
 
-                   <CustomBookComponent item={item} index={index}/>
+                   <CustomBookComponent item={item} index={index} userId={userID}/>
 
                     <Portal>
                         <Modal  visible={visible === index} onDismiss={hideModal} contentContainerStyle={containerStyle}>
@@ -117,7 +137,10 @@ function HomeScreen({navigation}){
 
 
 
-        ))}
+            ))}
+            {bookData.map((item,index,_)=> console.log(item?.id))}
+
+            {bookData.length === 0 && userData.length === 0 && dataState ? (<Text>İlgili kayıt bulunamadı</Text>):null}
 
 
             {userData.map((item,index,_)=> (
